@@ -1,0 +1,117 @@
+Create database SumanadasaElectricalShop;
+use SumanadasaElectricalShop;
+
+
+Create Table Customer(
+	Cust_ID		VARCHAR(10)	NOT NULL,
+	Cust_Name 	VARCHAR(30) 	NOT NULL,
+	Cust_Address 	VARCHAR(50),
+	Contact_No 	VARCHAR(10),
+	CONSTRAINT PRIMARY KEY (Cust_ID)
+);
+
+Create Table Vendor(
+	Vendor_ID	VARCHAR(10)	NOT NULL,
+	Vendor_Name 	VARCHAR(30) 	NOT NULL,
+	Vendor_Address 	VARCHAR(50),
+	Contact_No 	VARCHAR(10),
+	CONSTRAINT PRIMARY KEY (Vendor_ID)
+);
+
+
+Create Table Orders(
+	Order_ID 	VARCHAR(10)	NOT NULL,
+	Order_Date 	DATETIME 	NOT NULL,
+	Total_Amount 	DECIMAL(10,2),
+	Cust_ID 	VARCHAR(10) 	NOT NULL,
+	CONSTRAINT PRIMARY KEY (Order_ID),
+	CONSTRAINT FOREIGN KEY(Cust_ID) REFERENCES Customer(Cust_ID)
+);
+
+Create Table GRN(
+	GRN_ID 		VARCHAR(10)	NOT NULL,
+	GRN_Date 	DATETIME 	NOT NULL,
+	Total_Amount 	DECIMAL(10,2),
+	Vendor_ID 	VARCHAR(10) 	NOT NULL,
+	CONSTRAINT PRIMARY KEY (GRN_ID),
+	CONSTRAINT FOREIGN KEY(Vendor_ID) REFERENCES Vendor(Vendor_ID)
+);
+
+
+Create Table ItemType(
+	ItemType_Code	 	VARCHAR(10)	NOT NULL,
+	ItemType_Name		VARCHAR(30),
+	Description 		VARCHAR(50),
+	CONSTRAINT PRIMARY KEY (ItemType_Code)
+);
+
+
+Create Table Item(
+	Serial_No 		VARCHAR(20) 	NOT NULL,
+	Model_No		VARCHAR(20),
+	Item_Brand_Name		VARCHAR(30),
+	Receive_price 		DECIMAL(10,2),
+	Issue_price 		DECIMAL(10,2),
+	Warranty_Period 	VARCHAR(50),
+	ItemType_Code	 	VARCHAR(10)	NOT NULL,
+	GRN_ID 			VARCHAR(10)	NOT NULL,
+	Order_ID 		VARCHAR(10),
+	CONSTRAINT PRIMARY KEY (Serial_No),
+	CONSTRAINT FOREIGN KEY(ItemType_Code) REFERENCES ItemType(ItemType_Code),
+	CONSTRAINT FOREIGN KEY(GRN_ID) REFERENCES GRN(GRN_ID),
+	CONSTRAINT FOREIGN KEY(Order_ID) REFERENCES Orders(Order_ID)
+);
+
+
+CREATE TABLE OrderPayment(
+	OrderPayment_ID		VARCHAR(10)	NOT NULL,
+	OrderPayment_Amount	DECIMAL(10,2),
+	OrderPayment_Date	DATE,
+	OrderPayment_Discount	INT(5),
+	Order_ID		VARCHAR(10)	NOT NULL,
+	CONSTRAINT PRIMARY KEY (OrderPayment_ID),
+	CONSTARINT FOREIGN KEY (Order_ID) REFERENCES Orders(Order_ID)
+);
+
+CREATE TABLE OrderPaymentCheque(
+	OrderPayment_ID			VARCHAR(10)	NOT NULL,
+	OrderPaymentCheque_No		VARCHAR(20),
+	OrderPaymentCheque_AccNo	VARCHAR(20),
+	OrderPaymentCheque_Bank		VARCHAR(20),
+	OrderPaymentCheque_DueDate	DATE,
+	CONSTARINT FOREIGN KEY (OrderPayment_ID) REFERENCES OrderPayment (OrderPayment_ID)
+);
+
+CREATE TABLE OrderPaymentCard(
+	OrderPayment_ID				VARCHAR(10)	NOT NULL,
+	OrderPaymentCard_No			VARCHAR(20),
+	OrderPaymentCard_TransactionCode	VARCHAR(30),
+	CONSTARINT FOREIGN KEY (OrderPayment_ID) REFERENCES OrderPayment (OrderPayment_ID)
+);
+
+CREATE TABLE GRNPayment(
+	GRNPayment_ID		VARCHAR(10)	NOT NULL,
+	GRNPayment_Amount	DECIMAL(10,2),
+	GRNPayment_Date		DATE,
+	GRNPayment_Discount	INT(5),
+	GRN_ID			VARCHAR(10)	NOT NULL,
+	CONSTRAINT PRIMARY KEY (GRNPayment_ID),
+	CONSTARINT FOREIGN KEY (GRN_ID) REFERENCES GRN(GRN_ID)
+);
+
+CREATE TABLE GRNPaymentCheque(
+	GRNPayment_ID			VARCHAR(10)	NOT NULL,
+	GRNPaymentCheque_No		VARCHAR(20),
+	GRNPaymentCheque_AccNo		VARCHAR(20),
+	GRNPaymentCheque_Bank		VARCHAR(20),
+	GRNPaymentCheque_DueDate	DATE,
+	CONSTARINT FOREIGN KEY (GRNPayment_ID) REFERENCES GRNPayment (GRNPayment_ID)
+);
+
+CREATE TABLE GRNPaymentCard(
+	GRNPayment_ID				VARCHAR(10)	NOT NULL,
+	GRNPaymentCard_No			VARCHAR(20),
+	GRNPaymentCard_TransactionCode		VARCHAR(30),
+	CONSTARINT FOREIGN KEY (GRNPayment_ID) REFERENCES GRNPayment (GRNPayment_ID)
+);
+

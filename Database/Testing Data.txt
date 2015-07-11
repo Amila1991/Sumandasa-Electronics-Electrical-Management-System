@@ -1,0 +1,31 @@
+Customer
+
+INSERT INTO Customer VALUES('C0001','','','');
+INSERT INTO Customer VALUES('C0002','','','');
+INSERT INTO Customer VALUES('C0003','','','');
+INSERT INTO Customer VALUES('C0004','','','');
+INSERT INTO Customer VALUES('C0005','','','');
+INSERT INTO Customer VALUES('C0006','','','');
+INSERT INTO Customer VALUES('C0007','','','');
+INSERT INTO Customer VALUES('C0008','','','');
+INSERT INTO Customer VALUES('C0009','','','');
+INSERT INTO Customer VALUES('C0010','','','');
+INSERT INTO Customer VALUES('C0011','','','');
+
+
+ServiceOrder
+
+INSERT INTO ServiceOrder VALUES('SO0001','','','',,'');
+INSERT INTO ServiceOrder VALUES('SO0002','','','',,'');
+INSERT INTO ServiceOrder VALUES('SO0003','','','',,'');
+INSERT INTO ServiceOrder VALUES('SO0004','','','',,'');
+INSERT INTO ServiceOrder VALUES('SO0005','','','',,'');
+INSERT INTO ServiceOrder VALUES('SO0006','','','',,'');
+INSERT INTO ServiceOrder VALUES('SO0007','','','',,'');
+INSERT INTO ServiceOrder VALUES('SO0008','','','',,'');
+INSERT INTO ServiceOrder VALUES('SO0009','','','',,'');
+INSERT INTO ServiceOrder VALUES('SO0010','','','',,'');
+INSERT INTO ServiceOrder VALUES('SO0011','','','',,'');
+
+Item
+

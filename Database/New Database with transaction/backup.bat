@@ -1,0 +1,1 @@
+mysqldump SumanadasaElectricalshop -h localhost -u root -pijse>SumanadasaElectricalShop.txt

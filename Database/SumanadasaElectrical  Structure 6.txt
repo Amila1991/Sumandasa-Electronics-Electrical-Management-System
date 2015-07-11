@@ -1,0 +1,216 @@
+Create database SumanadasaElectricalService;
+use SumanadasaElectricalService;
+
+
+Create Table Customer(
+	Cust_ID		VARCHAR(6)	NOT NULL,
+	Cust_Name 	VARCHAR(30) 	NOT NULL,
+	Cust_Address 	VARCHAR(50),
+	Contact_No 	VARCHAR(10),
+	CONSTRAINT PRIMARY KEY (Cust_ID)
+);
+
+Create Table ServiceOrder(
+	Service_Order_ID 	VARCHAR(6)	NOT NULL,
+	Duration 		VARCHAR(15),
+	Order_Date 		DATETIME 	NOT NULL,
+	Issue_Date 		DATE,
+	Total_Cost_Amount 	DECIMAL(10,2),
+	Cust_ID 		VARCHAR(6) 	NOT NULL,
+	CONSTRAINT PRIMARY KEY (Service_Order_ID),
+	CONSTRAINT FOREIGN KEY(Cust_ID) REFERENCES Customer(Cust_ID)
+);
+
+Create Table Invoice(
+	Invoice_No 		VARCHAR(6) 	NOT NULL,
+	Date 			DATETIME	NOT NULL,
+	Amount 			DECIMAL(10,2)	NOT NULL,
+	Service_Order_ID 	VARCHAR(6) 	NOT NULL,
+	CONSTRAINT PRIMARY KEY (Invoice_No),
+	CONSTRAINT FOREIGN KEY(Service_Order_ID) REFERENCES ServiceOrder(Service_Order_ID)
+);
+
+Create Table Item(
+	Item_Code 		VARCHAR(6) 	NOT NULL,
+	Description 		VARCHAR(50) 	NOT NULL,
+	Model_No		VARCHAR(20),
+	Serial_No 		VARCHAR(20),
+	Item_Brand_Name		VARCHAR(30),
+	Current_Value 		DECIMAL(10,2),
+	Work_Finish_Date	DATETIME,
+	Item_Can_Be_Repair	BINARY,
+	Service_Order_ID 	VARCHAR(6) 	NOT NULL,
+	CONSTRAINT PRIMARY KEY (Item_Code),
+	CONSTRAINT FOREIGN KEY(Service_Order_ID) REFERENCES ServiceOrder(Service_Order_ID)
+);
+
+Create Table Conditions(
+	Condition_No		INT(6) 		NOT NULL,
+	Condition_Description 	VARCHAR(50)	NOT NULL,
+	Item_Code 		VARCHAR(6) 	NOT NULL,
+	CONSTRAINT PRIMARY KEY (Condition_No,Item_Code),
+	CONSTRAINT FOREIGN KEY(Item_Code) REFERENCES Item(Item_Code)
+);
+
+Create Table JobDetail(
+	Job_Code 		VARCHAR(6) 	NOT NULL,
+	Job_Deficiency		VARCHAR(30) 	NOT NULL,
+	Labour_Cost	 	DECIMAL(10,2),
+	Transport_Charges 	DECIMAL(10,2),
+	Job_Expenses_Charges 	DECIMAL(10,2),
+	Other_Expenses_Charges 	DECIMAL(10,2),
+	Start_Date 		DATETIME 	NOT NULL,
+	Finish_Date 		DATETIME,
+	Work_Man_Hours		INT(10),
+	Item_Code 		VARCHAR(6) 	NOT NULL,
+	CONSTRAINT PRIMARY KEY (Job_Code),
+	CONSTRAINT FOREIGN KEY(Item_Code) REFERENCES Item(Item_Code)
+);
+
+Create Table JobDescription(
+	Decription_No 	INT(6)	 	NOT NULL,
+	Job_Decription 	VARCHAR(50)	NOT NULL,
+	Job_Code 	VARCHAR(6) 	NOT NULL,
+	CONSTRAINT PRIMARY KEY (Decription_No,Job_Code),
+	CONSTRAINT FOREIGN KEY(Job_Code) REFERENCES JobDetail(Job_Code)
+);
+
+Create Table JobCurrentState(
+	Current_State_Code 	  INT(6) 	NOT NULL,
+	Current_State_Description VARCHAR(50)	NOT NULL,
+	State_Add_Date 		  DATETIME 	NOT NULL,
+	Job_Code 		  VARCHAR(6) 	NOT NULL,
+	CONSTRAINT PRIMARY KEY (Current_State_Code,Job_Code),
+	CONSTRAINT FOREIGN KEY(Job_Code) REFERENCES JobDetail(Job_Code)
+);
+
+Create Table ItemRemarks(
+	Item_Remark_No 	  		INT(6) 		NOT NULL,
+	Item_Remark_Description 	VARCHAR(50)	NOT NULL,
+	Item_Code			VARCHAR(6)	NOT NULL,
+	CONSTRAINT PRIMARY KEY (Item_Remark_No,Item_Code),
+	CONSTRAINT FOREIGN KEY(Item_Code) REFERENCES Item(Item_Code)
+);
+
+
+Create Table EmployeeType(
+	Employee_Type_ID 		VARCHAR(6) 	NOT NULL,
+	Employee_Type_Name 		VARCHAR(30) 	NOT NULL,
+	Employee_Type_Description 	VARCHAR(50),
+	CONSTRAINT PRIMARY KEY (Employee_Type_ID)
+);
+
+
+Create Table Employee(
+	Employee_ID 		VARCHAR(6) 	NOT NULL,
+	Employee_Name 		VARCHAR(30) 	NOT NULL,
+	Employee_Address 	VARCHAR(50),
+	Employee_Contact 	VARCHAR(10),
+	Employee_NIC 		VARCHAR(10),
+	Employee_Type_ID 	VARCHAR(6) 	NOT NULL,
+	CONSTRAINT PRIMARY KEY (Employee_ID),
+	CONSTRAINT FOREIGN KEY(Employee_Type_ID) REFERENCES EmployeeType(Employee_Type_ID)
+);
+
+
+Create Table EmployeeQuit(
+	Employee_ID 		VARCHAR(6) 	NOT NULL,
+	Employee_Name 		VARCHAR(30) 	NOT NULL,
+	Employee_Address 	VARCHAR(50),
+	Employee_Contact 	VARCHAR(10),
+	Employee_NIC 		VARCHAR(10),
+	Employee_Type_ID 	VARCHAR(6) 	NOT NULL,
+	CONSTRAINT PRIMARY KEY (Employee_ID),
+	CONSTRAINT FOREIGN KEY(Employee_Type_ID) REFERENCES EmployeeType(Employee_Type_ID)
+);
+
+Create Table SystemUser(
+	Employee_ID 		VARCHAR(6) 	NOT NULL,
+	User_Name 		VARCHAR(30) 	NOT NULL,
+	Password 		TEXT		NOT NULL,
+	CONSTRAINT PRIMARY KEY (User_Name),
+	CONSTRAINT FOREIGN KEY(Employee_ID) REFERENCES Employee(Employee_ID)
+);
+
+
+Create Table EmployeeDetail (
+	Employee_ID 	VARCHAR(6) 	NOT NULL,
+	Job_Code 	VARCHAR(6) 	NOT NULL,
+	Supervisor_ID 	VARCHAR(6) 	NOT NULL,
+	CONSTRAINT PRIMARY KEY (Employee_ID,Job_Code),
+	CONSTRAINT FOREIGN KEY(Employee_ID) REFERENCES Employee(Employee_ID),
+	CONSTRAINT FOREIGN KEY(Supervisor_ID) REFERENCES EmployeeDetail(Employee_ID),
+	CONSTRAINT FOREIGN KEY(Job_Code) REFERENCES JobDetail(Job_Code)
+);
+
+Create Table RemoveEmployeeDetail (
+	Employee_ID 	VARCHAR(6) 	NOT NULL,
+	Job_Code 	VARCHAR(6) 	NOT NULL,
+	Supervisor_ID 	VARCHAR(6) 	NOT NULL,
+	CONSTRAINT PRIMARY KEY (Employee_ID,Job_Code),
+	CONSTRAINT FOREIGN KEY(Employee_ID) REFERENCES Employee(Employee_ID),
+	CONSTRAINT FOREIGN KEY(Supervisor_ID) REFERENCES EmployeeQuit(Employee_ID),
+	CONSTRAINT FOREIGN KEY(Job_Code) REFERENCES JobDetail(Job_Code)
+);
+
+
+Create Table AccessoriesCategory (
+	Accessories_Category_ID 		VARCHAR(6) 	NOT NULL,
+	Accessories_Category_Description	VARCHAR(30) 	NOT NULL,
+	CONSTRAINT PRIMARY KEY (Accessories_Category_ID)
+);
+
+
+Create Table Accessory (
+	Accessory_ID 			VARCHAR(6) 	NOT NULL,
+	Accessory_Description 		VARCHAR(30) 	NOT NULL,
+	Accessory_Brand_Name 		VARCHAR(30) 	NOT NULL,
+	Unit_Purchase_Price		DECIMAL(10,2)	NOT NULL,
+	Unit_Issue_Price		DECIMAL(10,2)	NOT NULL,
+	QtyOnHand			INT(20)		NOT NULL,
+	Accessories_Category_ID		VARCHAR(6) 	NOT NULL,
+	CONSTRAINT PRIMARY KEY (Accessory_ID),
+	CONSTRAINT FOREIGN KEY(Accessories_Category_ID) REFERENCES AccessoriesCategory(Accessories_Category_ID)
+);
+
+
+Create Table AccessoriesDetail (
+	Accessory_ID 			VARCHAR(6) 	NOT NULL,
+	Job_Code 			VARCHAR(6) 	NOT NULL,
+	Unit_Issue_Price		DECIMAL(10,2)	NOT NULL,
+	Qty				INT(20)		NOT NULL,
+	Accessories_Deatil_Issue	BINARY		NOT NULL,
+	CONSTRAINT PRIMARY KEY (Accessory_ID,Job_Code),
+	CONSTRAINT FOREIGN KEY(Accessory_ID) REFERENCES Accessory(Accessory_ID),
+	CONSTRAINT FOREIGN KEY(Job_Code) REFERENCES JobDetail(Job_Code)
+);
+
+INSERt INTO EmployeeType(Employee_Type_ID,Employee_Type_Name) VALUES('ET1','Admin');
+
+INSERt INTO EmployeeType(Employee_Type_ID,Employee_Type_Name) VALUES('ET2','Technician');
+
+INSERt INTO EmployeeType(Employee_Type_ID,Employee_Type_Name) VALUES('ET3','Cashier');
+
+INSERt INTO EmployeeType(Employee_Type_ID,Employee_Type_Name) VALUES('ET4','Assistant Technician');
+
+INSERT INTO EMPLOYEE VALUES('EOOO1','Amila Karunathilaka','Poramba,ambalangoda','0779386412','910550721v','ET1');
+INSERT INTO EMPLOYEE VALUES('EOOO2','Hasitha Karunathilaka','Poramba,ambalangoda','0912259189','960690751v','ET2');
+INSERT INTO EMPLOYEE VALUES('EOOO3','Janath Nanayakkara','Galle,ambalangoda','0774654645','887654432v','ET3');
+
+INSERT INTO SystemUser VALUES('EOOO1','Amila','Zm8O3bz+KGvr9x1lWPWQ4PrFkY4h6flTSuQdfmbqJ5f180DTXX8lHu+g8Yo1enCh2mo5p4fWb0iZCbniNClnKFH+DHDiNTZeQSB9bQQm8aiCKfXqG+HpoiS0vbyDdciUWetylDIWF5pJ7BiTY2FewHQwgFfEyVwQw5wkIN7KKHyevj6IXRLYNPMsyqNsOnV2');
+INSERT INTO SystemUser VALUES('EOOO3','Janath','Zm8O3bz+KGvr9x1lWPWQ4PrFkY4h6flTSuQdfmbqJ5f180DTXX8lHu+g8Yo1enCh2mo5p4fWb0iZCbniNClnKFH+DHDiNTZeQSB9bQQm8aiCKfXqG+HpoiS0vbyDdciUWetylDIWF5pJ7BiTY2FewHQwgFfEyVwQw5wkIN7KKHyevj6IXRLYNPMsyqNsOnV2');
+
+Zm8O3bz+KGvr9x1lWPWQ4PrFkY4h6flTSuQdfmbqJ5f180DTXX8lHu+g8Yo1enCh2mo5p4fWb0iZCbniNClnKFH+DHDiNTZeQSB9bQQm8aiCKfXqG+HpoiS0vbyDdciUWetylDIWF5pJ7BiTY2FewHQwgFfEyVwQw5wkIN7KKHyevj6IXRLYNPMsyqNsOnV2
+
+Employee Typies
+
+Admin			ET1
+Technician		ET2
+Cashier			ET3
+Assistant Technician	ET4
+
+Accessories Deatil Condition
+
+Receive		1
+Issue		2
+

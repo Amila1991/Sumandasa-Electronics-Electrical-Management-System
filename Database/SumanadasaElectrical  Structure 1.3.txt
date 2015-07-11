@@ -1,0 +1,152 @@
+Create database SumanadasaElectricalService;
+use SumanadasaElectricalService;
+
+
+Create Table Customer(
+	Cust_ID		VARCHAR(6)	NOT NULL,
+	Cust_Name 	VARCHAR(30) 	NOT NULL,
+	Cust_Address 	VARCHAR(50),
+	Contact_No 	VARCHAR(10),
+	CONSTRAINT PRIMARY KEY (Cust_ID)
+);
+
+Create Table ServiceOrder(
+	Service_Order_ID 	VARCHAR(6)	NOT NULL,
+	Duration 		VARCHAR(15),
+	Order_Date 		DATETIME 	NOT NULL,
+	Issue_Date 		DATE,
+	Total_Amount 		DECIMAL(10,2),
+	Cust_ID 		VARCHAR(6) 	NOT NULL,
+	CONSTRAINT PRIMARY KEY (Service_Order_ID),
+	CONSTRAINT FOREIGN KEY(Cust_ID) REFERENCES Customer(Cust_ID)
+);
+
+Create Table Invoice(
+	Invoice_No 		VARCHAR(6) 	NOT NULL,
+	Date 			DATETIME	NOT NULL,
+	Amount 			DECIMAL(10,2)	NOT NULL,
+	Service_Order_ID 	VARCHAR(6) 	NOT NULL,
+	CONSTRAINT PRIMARY KEY (Invoice_No),
+	CONSTRAINT FOREIGN KEY(Service_Order_ID) REFERENCES ServiceOrder(Service_Order_ID)
+);
+
+Create Table Item(
+	Item_Code 		VARCHAR(6) 	NOT NULL,
+	Description 		VARCHAR(50) 	NOT NULL,
+	Model_No		VARCHAR(20),
+	Serial_No 		VARCHAR(20),
+	Item_Brand_Name		VARCHAR(30),
+	Current_Value 		DECIMAL(10,2),
+	Work_Finish_Date	DATETIME,
+	Service_Order_ID 	VARCHAR(6) 	NOT NULL,
+	CONSTRAINT PRIMARY KEY (Item_Code),
+	CONSTRAINT FOREIGN KEY(Service_Order_ID) REFERENCES ServiceOrder(Service_Order_ID)
+);
+
+Create Table Conditions(
+	Condtion_No		VARCHAR(6) 	NOT NULL,
+	Condition_Description 	VARCHAR(50)	NOT NULL,
+	Item_Code 		VARCHAR(6) 	NOT NULL,
+	CONSTRAINT PRIMARY KEY (Condtion_No),
+	CONSTRAINT FOREIGN KEY(Item_Code) REFERENCES Item(Item_Code)
+);
+
+Create Table JobDetail(
+	Job_Code 	VARCHAR(6) 	NOT NULL,
+	Job_Decription	VARCHAR(30) 	NOT NULL,
+	Job_Charges 	DECIMAL(10,2),
+	Job_Get_Date 	DATETIME 	NOT NULL,
+	Start_Date 	DATETIME,
+	Finish_Date 	DATETIME,
+	Item_Code 	VARCHAR(6) 	NOT NULL,
+	CONSTRAINT PRIMARY KEY (Job_Code),
+	CONSTRAINT FOREIGN KEY(Item_Code) REFERENCES Item(Item_Code)
+);
+
+Create Table JobDeficiency(
+	Deficiency_No 	VARCHAR(6) 	NOT NULL,
+	Job_Deficiency 	VARCHAR(50),
+	Job_Code 	VARCHAR(6) 	NOT NULL,
+	CONSTRAINT PRIMARY KEY (Deficiency_No),
+	CONSTRAINT FOREIGN KEY(Job_Code) REFERENCES JobDetail(Job_Code)
+);
+
+Create Table JobCurrentState(
+	Current_State_Code 	 VARCHAR(6) 	NOT NULL,
+	Current_State_Description VARCHAR(50)	NOT NULL,
+	State_Add_Date 		 DATETIME 	NOT NULL,
+	Job_Code 		 VARCHAR(6) 	NOT NULL,
+	CONSTRAINT PRIMARY KEY (Current_State_Code),
+	CONSTRAINT FOREIGN KEY(Job_Code) REFERENCES JobDetail(Job_Code)
+);
+
+Create Table Employee(
+	Employee_ID 		VARCHAR(6) 	NOT NULL,
+	Employee_Name 		VARCHAR(30) 	NOT NULL,
+	Employee_Address 	VARCHAR(50),
+	Employee_Contact 	VARCHAR(10),
+	Employee_NIC 		VARCHAR(10),
+	Employee_Type 		INT(2) 		NOT NULL,
+	CONSTRAINT PRIMARY KEY (Employee_ID)
+);
+
+
+Create Table EmployeeDetail (
+	Employee_ID 	VARCHAR(6) 	NOT NULL,
+	Job_Code 	VARCHAR(6) 	NOT NULL,
+	Supervisor_ID 	VARCHAR(6) 	NOT NULL,
+	CONSTRAINT PRIMARY KEY (Employee_ID,Job_Code),
+	CONSTRAINT FOREIGN KEY(Employee_ID) REFERENCES Employee(Employee_ID),
+	CONSTRAINT FOREIGN KEY(Supervisor_ID) REFERENCES EmployeeDetail(Employee_ID),
+	CONSTRAINT FOREIGN KEY(Job_Code) REFERENCES JobDetail(Job_Code)
+);
+
+
+Create Table AccessoriesCategory (
+	Accessories_Category_ID 		VARCHAR(6) 	NOT NULL,
+	Accessories_Category_Description	VARCHAR(30) 	NOT NULL,
+	CONSTRAINT PRIMARY KEY (Accessories_Category_ID)
+);
+
+
+Create Table Accessory (
+	Accessory_ID 		VARCHAR(6) 	NOT NULL,
+	Accessory_Description VARCHAR(30) 	NOT NULL,
+	Accessory_Brand_Name 	VARCHAR(30) 	NOT NULL,
+	Unit_Price		DECIMAL(10,2)	NOT NULL,
+	QtyOnHand		INT(20)		NOT NULL,
+	Accessories_Category_ID	VARCHAR(6) 	NOT NULL,
+	CONSTRAINT PRIMARY KEY (Accessory_ID),
+	CONSTRAINT FOREIGN KEY(Accessories_Category_ID) REFERENCES AccessoriesCategory(Accessories_Category_ID)
+);
+
+
+Create Table AccessoriesDetail (
+	Accessory_ID 			VARCHAR(6) 	NOT NULL,
+	Job_Code 			VARCHAR(6) 	NOT NULL,
+	Unit_Price			DECIMAL(10,2)	NOT NULL,
+	Qty				INT(20)		NOT NULL,
+	Accessories_Deatil_Condition	INT(2)		NOT NULL,
+	CONSTRAINT PRIMARY KEY (Accessory_ID,Job_Code),
+	CONSTRAINT FOREIGN KEY(Accessory_ID) REFERENCES Accessory(Accessory_ID),
+	CONSTRAINT FOREIGN KEY(Job_Code) REFERENCES JobDetail(Job_Code)
+);
+
+
+
+
+
+
+
+
+Employee Typies
+
+Admin		1
+Technician	2
+Cashier		3
+
+Accessories Deatil Condition
+
+Receive		1
+Issue		2
+

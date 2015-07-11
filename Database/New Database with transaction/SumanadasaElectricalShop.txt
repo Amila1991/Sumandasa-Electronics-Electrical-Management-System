@@ -1,0 +1,966 @@
+-- MySQL dump 10.13  Distrib 5.5.20, for Win64 (x86)
+--
+-- Host: localhost    Database: SumanadasaElectricalshop
+-- ------------------------------------------------------
+-- Server version	5.5.20
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `accessoriescategory`
+--
+
+DROP TABLE IF EXISTS `accessoriescategory`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `accessoriescategory` (
+  `Accessories_Category_ID` varchar(6) NOT NULL,
+  `Accessories_Category_Description` varchar(30) NOT NULL,
+  PRIMARY KEY (`Accessories_Category_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `accessoriescategory`
+--
+
+LOCK TABLES `accessoriescategory` WRITE;
+/*!40000 ALTER TABLE `accessoriescategory` DISABLE KEYS */;
+/*!40000 ALTER TABLE `accessoriescategory` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `accessoriesdetail`
+--
+
+DROP TABLE IF EXISTS `accessoriesdetail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `accessoriesdetail` (
+  `Accessory_ID` varchar(6) NOT NULL,
+  `Job_Code` varchar(6) NOT NULL,
+  `Unit_Issue_Price` decimal(10,2) NOT NULL,
+  `Qty` int(20) NOT NULL,
+  `Accessories_Deatil_Issue` binary(1) NOT NULL,
+  PRIMARY KEY (`Accessory_ID`,`Job_Code`),
+  KEY `Job_Code` (`Job_Code`),
+  CONSTRAINT `accessoriesdetail_ibfk_1` FOREIGN KEY (`Accessory_ID`) REFERENCES `accessory` (`Accessory_ID`),
+  CONSTRAINT `accessoriesdetail_ibfk_2` FOREIGN KEY (`Job_Code`) REFERENCES `jobdetail` (`Job_Code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `accessoriesdetail`
+--
+
+LOCK TABLES `accessoriesdetail` WRITE;
+/*!40000 ALTER TABLE `accessoriesdetail` DISABLE KEYS */;
+/*!40000 ALTER TABLE `accessoriesdetail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `accessory`
+--
+
+DROP TABLE IF EXISTS `accessory`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `accessory` (
+  `Accessory_ID` varchar(6) NOT NULL,
+  `Accessory_Description` varchar(30) NOT NULL,
+  `Accessory_Brand_Name` varchar(30) NOT NULL,
+  `Unit_Purchase_Price` decimal(10,2) NOT NULL,
+  `Unit_Issue_Price` decimal(10,2) NOT NULL,
+  `QtyOnHand` int(20) NOT NULL,
+  `Accessories_Category_ID` varchar(6) NOT NULL,
+  PRIMARY KEY (`Accessory_ID`),
+  KEY `Accessories_Category_ID` (`Accessories_Category_ID`),
+  CONSTRAINT `accessory_ibfk_1` FOREIGN KEY (`Accessories_Category_ID`) REFERENCES `accessoriescategory` (`Accessories_Category_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `accessory`
+--
+
+LOCK TABLES `accessory` WRITE;
+/*!40000 ALTER TABLE `accessory` DISABLE KEYS */;
+/*!40000 ALTER TABLE `accessory` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `conditions`
+--
+
+DROP TABLE IF EXISTS `conditions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `conditions` (
+  `Condition_No` int(6) NOT NULL,
+  `Condition_Description` varchar(50) NOT NULL,
+  `Item_Code` varchar(6) NOT NULL,
+  PRIMARY KEY (`Condition_No`,`Item_Code`),
+  KEY `Item_Code` (`Item_Code`),
+  CONSTRAINT `conditions_ibfk_1` FOREIGN KEY (`Item_Code`) REFERENCES `serviceitem` (`Item_Code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `conditions`
+--
+
+LOCK TABLES `conditions` WRITE;
+/*!40000 ALTER TABLE `conditions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `conditions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `customer`
+--
+
+DROP TABLE IF EXISTS `customer`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `customer` (
+  `Cust_ID` varchar(6) NOT NULL,
+  `Cust_Name` varchar(30) NOT NULL,
+  `Cust_Address` varchar(50) DEFAULT NULL,
+  `Contact_No` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`Cust_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `customer`
+--
+
+LOCK TABLES `customer` WRITE;
+/*!40000 ALTER TABLE `customer` DISABLE KEYS */;
+/*!40000 ALTER TABLE `customer` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `employee`
+--
+
+DROP TABLE IF EXISTS `employee`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `employee` (
+  `Employee_ID` varchar(6) NOT NULL,
+  `Employee_Name` varchar(30) NOT NULL,
+  `Employee_Address` varchar(50) DEFAULT NULL,
+  `Employee_Contact` varchar(10) DEFAULT NULL,
+  `Employee_NIC` varchar(10) DEFAULT NULL,
+  `Employee_Type_ID` varchar(6) NOT NULL,
+  PRIMARY KEY (`Employee_ID`),
+  KEY `Employee_Type_ID` (`Employee_Type_ID`),
+  CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`Employee_Type_ID`) REFERENCES `employeetype` (`Employee_Type_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `employee`
+--
+
+LOCK TABLES `employee` WRITE;
+/*!40000 ALTER TABLE `employee` DISABLE KEYS */;
+/*!40000 ALTER TABLE `employee` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `employeedetail`
+--
+
+DROP TABLE IF EXISTS `employeedetail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `employeedetail` (
+  `Employee_ID` varchar(6) NOT NULL,
+  `Job_Code` varchar(6) NOT NULL,
+  PRIMARY KEY (`Employee_ID`,`Job_Code`),
+  KEY `Job_Code` (`Job_Code`),
+  CONSTRAINT `employeedetail_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `employee` (`Employee_ID`),
+  CONSTRAINT `employeedetail_ibfk_2` FOREIGN KEY (`Job_Code`) REFERENCES `jobdetail` (`Job_Code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `employeedetail`
+--
+
+LOCK TABLES `employeedetail` WRITE;
+/*!40000 ALTER TABLE `employeedetail` DISABLE KEYS */;
+/*!40000 ALTER TABLE `employeedetail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `employeequit`
+--
+
+DROP TABLE IF EXISTS `employeequit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `employeequit` (
+  `Employee_ID` varchar(6) NOT NULL,
+  `Employee_Name` varchar(30) NOT NULL,
+  `Employee_Address` varchar(50) DEFAULT NULL,
+  `Employee_Contact` varchar(10) DEFAULT NULL,
+  `Employee_NIC` varchar(10) DEFAULT NULL,
+  `Employee_Type_ID` varchar(6) NOT NULL,
+  PRIMARY KEY (`Employee_ID`),
+  KEY `Employee_Type_ID` (`Employee_Type_ID`),
+  CONSTRAINT `employeequit_ibfk_1` FOREIGN KEY (`Employee_Type_ID`) REFERENCES `employeetype` (`Employee_Type_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `employeequit`
+--
+
+LOCK TABLES `employeequit` WRITE;
+/*!40000 ALTER TABLE `employeequit` DISABLE KEYS */;
+/*!40000 ALTER TABLE `employeequit` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `employeetype`
+--
+
+DROP TABLE IF EXISTS `employeetype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `employeetype` (
+  `Employee_Type_ID` varchar(6) NOT NULL,
+  `Employee_Type_Name` varchar(30) NOT NULL,
+  `Employee_Type_Description` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`Employee_Type_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `employeetype`
+--
+
+LOCK TABLES `employeetype` WRITE;
+/*!40000 ALTER TABLE `employeetype` DISABLE KEYS */;
+INSERT INTO `employeetype` VALUES ('ET1','Admin',NULL),('ET2','Technician',NULL),('ET3','Cashier',NULL),('ET4','Assistant Technician',NULL);
+/*!40000 ALTER TABLE `employeetype` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `grn`
+--
+
+DROP TABLE IF EXISTS `grn`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `grn` (
+  `GRN_ID` varchar(10) NOT NULL,
+  `GRN_Date` datetime NOT NULL,
+  `Total_Amount` decimal(10,2) DEFAULT NULL,
+  `Discount` decimal(5,2) DEFAULT NULL,
+  `Vendor_ID` varchar(10) NOT NULL,
+  `Transaction_ID` varchar(10) NOT NULL,
+  PRIMARY KEY (`GRN_ID`),
+  KEY `Vendor_ID` (`Vendor_ID`),
+  KEY `Transaction_ID` (`Transaction_ID`),
+  CONSTRAINT `grn_ibfk_1` FOREIGN KEY (`Vendor_ID`) REFERENCES `vendor` (`Vendor_ID`),
+  CONSTRAINT `grn_ibfk_2` FOREIGN KEY (`Transaction_ID`) REFERENCES `transaction` (`Transaction_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `grn`
+--
+
+LOCK TABLES `grn` WRITE;
+/*!40000 ALTER TABLE `grn` DISABLE KEYS */;
+/*!40000 ALTER TABLE `grn` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `grndetail`
+--
+
+DROP TABLE IF EXISTS `grndetail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `grndetail` (
+  `GRN_ID` varchar(10) NOT NULL,
+  `Model_No` varchar(20) NOT NULL,
+  `Receive_price` decimal(10,2) DEFAULT NULL,
+  `GRN_Qty` int(20) DEFAULT NULL,
+  PRIMARY KEY (`GRN_ID`,`Model_No`),
+  KEY `Model_No` (`Model_No`),
+  CONSTRAINT `grndetail_ibfk_1` FOREIGN KEY (`GRN_ID`) REFERENCES `grn` (`GRN_ID`),
+  CONSTRAINT `grndetail_ibfk_2` FOREIGN KEY (`Model_No`) REFERENCES `salesitem` (`Model_No`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `grndetail`
+--
+
+LOCK TABLES `grndetail` WRITE;
+/*!40000 ALTER TABLE `grndetail` DISABLE KEYS */;
+/*!40000 ALTER TABLE `grndetail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `grnpayment`
+--
+
+DROP TABLE IF EXISTS `grnpayment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `grnpayment` (
+  `GRNPayment_ID` varchar(10) NOT NULL,
+  `GRNPayment_Amount` decimal(10,2) NOT NULL,
+  `GRNPayment_Date` date NOT NULL,
+  `GRNPayment_Discount` int(5) DEFAULT NULL,
+  `GRN_ID` varchar(10) NOT NULL,
+  PRIMARY KEY (`GRNPayment_ID`),
+  KEY `GRN_ID` (`GRN_ID`),
+  CONSTRAINT `grnpayment_ibfk_1` FOREIGN KEY (`GRN_ID`) REFERENCES `grn` (`GRN_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `grnpayment`
+--
+
+LOCK TABLES `grnpayment` WRITE;
+/*!40000 ALTER TABLE `grnpayment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `grnpayment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `grnpaymentcheque`
+--
+
+DROP TABLE IF EXISTS `grnpaymentcheque`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `grnpaymentcheque` (
+  `GRNPayment_ID` varchar(10) NOT NULL,
+  `GRNPaymentCheque_No` varchar(20) NOT NULL,
+  `GRNPaymentBank_Name` varchar(20) DEFAULT NULL,
+  `GRNPaymentBank_Branch` varchar(20) DEFAULT NULL,
+  `GRNPaymentBank_Code` varchar(20) DEFAULT NULL,
+  `GRNPaymentCust_Name` varchar(50) DEFAULT NULL,
+  `GRNPaymentBank_IssueDate` date NOT NULL,
+  `GRNPaymentCheque_DueDate` date NOT NULL,
+  KEY `GRNPayment_ID` (`GRNPayment_ID`),
+  CONSTRAINT `grnpaymentcheque_ibfk_1` FOREIGN KEY (`GRNPayment_ID`) REFERENCES `grnpayment` (`GRNPayment_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `grnpaymentcheque`
+--
+
+LOCK TABLES `grnpaymentcheque` WRITE;
+/*!40000 ALTER TABLE `grnpaymentcheque` DISABLE KEYS */;
+/*!40000 ALTER TABLE `grnpaymentcheque` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `installmentpayment`
+--
+
+DROP TABLE IF EXISTS `installmentpayment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `installmentpayment` (
+  `Installment_No` int(6) NOT NULL,
+  `OrderPaymentInstallment_ID` varchar(10) NOT NULL,
+  `Installment_Amount` decimal(10,2) NOT NULL,
+  `OrderPayment_Date` datetime NOT NULL,
+  PRIMARY KEY (`OrderPaymentInstallment_ID`,`Installment_No`),
+  CONSTRAINT `installmentpayment_ibfk_1` FOREIGN KEY (`OrderPaymentInstallment_ID`) REFERENCES `salesorderpaymentinstallment` (`OrderPaymentInstallment_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `installmentpayment`
+--
+
+LOCK TABLES `installmentpayment` WRITE;
+/*!40000 ALTER TABLE `installmentpayment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `installmentpayment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `jobcurrentstate`
+--
+
+DROP TABLE IF EXISTS `jobcurrentstate`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `jobcurrentstate` (
+  `Current_State_Code` int(6) NOT NULL,
+  `Current_State_Description` varchar(50) NOT NULL,
+  `State_Add_Date` datetime NOT NULL,
+  `Job_Code` varchar(6) NOT NULL,
+  PRIMARY KEY (`Current_State_Code`,`Job_Code`),
+  KEY `Job_Code` (`Job_Code`),
+  CONSTRAINT `jobcurrentstate_ibfk_1` FOREIGN KEY (`Job_Code`) REFERENCES `jobdetail` (`Job_Code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `jobcurrentstate`
+--
+
+LOCK TABLES `jobcurrentstate` WRITE;
+/*!40000 ALTER TABLE `jobcurrentstate` DISABLE KEYS */;
+/*!40000 ALTER TABLE `jobcurrentstate` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `jobdescription`
+--
+
+DROP TABLE IF EXISTS `jobdescription`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `jobdescription` (
+  `Decription_No` int(6) NOT NULL,
+  `Job_Decription` varchar(50) NOT NULL,
+  `Job_Code` varchar(6) NOT NULL,
+  PRIMARY KEY (`Decription_No`,`Job_Code`),
+  KEY `Job_Code` (`Job_Code`),
+  CONSTRAINT `jobdescription_ibfk_1` FOREIGN KEY (`Job_Code`) REFERENCES `jobdetail` (`Job_Code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `jobdescription`
+--
+
+LOCK TABLES `jobdescription` WRITE;
+/*!40000 ALTER TABLE `jobdescription` DISABLE KEYS */;
+/*!40000 ALTER TABLE `jobdescription` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `jobdetail`
+--
+
+DROP TABLE IF EXISTS `jobdetail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `jobdetail` (
+  `Job_Code` varchar(6) NOT NULL,
+  `Job_Deficiency` varchar(30) NOT NULL,
+  `Labour_Cost` decimal(10,2) DEFAULT NULL,
+  `Transport_Charges` decimal(10,2) DEFAULT NULL,
+  `Job_Expenses_Charges` decimal(10,2) DEFAULT NULL,
+  `Other_Expenses_Charges` decimal(10,2) DEFAULT NULL,
+  `Start_Date` datetime NOT NULL,
+  `Finish_Date` datetime DEFAULT NULL,
+  `Work_Man_Hours` int(10) DEFAULT NULL,
+  `Item_Code` varchar(6) NOT NULL,
+  `Supervisor_ID` varchar(6) NOT NULL,
+  `Transaction_ID` varchar(10) NOT NULL,
+  PRIMARY KEY (`Job_Code`),
+  KEY `Supervisor_ID` (`Supervisor_ID`),
+  KEY `Item_Code` (`Item_Code`),
+  KEY `Transaction_ID` (`Transaction_ID`),
+  CONSTRAINT `jobdetail_ibfk_1` FOREIGN KEY (`Supervisor_ID`) REFERENCES `employee` (`Employee_ID`),
+  CONSTRAINT `jobdetail_ibfk_2` FOREIGN KEY (`Item_Code`) REFERENCES `serviceitem` (`Item_Code`),
+  CONSTRAINT `jobdetail_ibfk_3` FOREIGN KEY (`Transaction_ID`) REFERENCES `transaction` (`Transaction_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `jobdetail`
+--
+
+LOCK TABLES `jobdetail` WRITE;
+/*!40000 ALTER TABLE `jobdetail` DISABLE KEYS */;
+/*!40000 ALTER TABLE `jobdetail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `removeemployeedetail`
+--
+
+DROP TABLE IF EXISTS `removeemployeedetail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `removeemployeedetail` (
+  `Employee_ID` varchar(6) NOT NULL,
+  `Job_Code` varchar(6) NOT NULL,
+  PRIMARY KEY (`Employee_ID`,`Job_Code`),
+  KEY `Job_Code` (`Job_Code`),
+  CONSTRAINT `removeemployeedetail_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `employee` (`Employee_ID`),
+  CONSTRAINT `removeemployeedetail_ibfk_2` FOREIGN KEY (`Job_Code`) REFERENCES `jobdetail` (`Job_Code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `removeemployeedetail`
+--
+
+LOCK TABLES `removeemployeedetail` WRITE;
+/*!40000 ALTER TABLE `removeemployeedetail` DISABLE KEYS */;
+/*!40000 ALTER TABLE `removeemployeedetail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `salesitem`
+--
+
+DROP TABLE IF EXISTS `salesitem`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `salesitem` (
+  `Model_No` varchar(20) NOT NULL,
+  `Item_Description` varchar(100) DEFAULT NULL,
+  `Item_Brand_Name` varchar(30) DEFAULT NULL,
+  `Receive_price` decimal(10,2) DEFAULT NULL,
+  `Cash_Issue_price` decimal(10,2) DEFAULT NULL,
+  `Credit_Issue_price` decimal(10,2) DEFAULT NULL,
+  `Item_Qty` int(20) DEFAULT NULL,
+  `Warranty_Period` varchar(50) DEFAULT NULL,
+  `ItemType_Code` varchar(10) NOT NULL,
+  PRIMARY KEY (`Model_No`),
+  KEY `ItemType_Code` (`ItemType_Code`),
+  CONSTRAINT `salesitem_ibfk_1` FOREIGN KEY (`ItemType_Code`) REFERENCES `salesitemtype` (`ItemType_Code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `salesitem`
+--
+
+LOCK TABLES `salesitem` WRITE;
+/*!40000 ALTER TABLE `salesitem` DISABLE KEYS */;
+/*!40000 ALTER TABLE `salesitem` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `salesitemtype`
+--
+
+DROP TABLE IF EXISTS `salesitemtype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `salesitemtype` (
+  `ItemType_Code` varchar(10) NOT NULL,
+  `ItemType_Name` varchar(30) DEFAULT NULL,
+  `Description` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ItemType_Code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `salesitemtype`
+--
+
+LOCK TABLES `salesitemtype` WRITE;
+/*!40000 ALTER TABLE `salesitemtype` DISABLE KEYS */;
+/*!40000 ALTER TABLE `salesitemtype` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `salesorderpayment`
+--
+
+DROP TABLE IF EXISTS `salesorderpayment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `salesorderpayment` (
+  `OrderPayment_ID` varchar(10) NOT NULL,
+  `OrderPayment_Amount` decimal(10,2) NOT NULL,
+  `OrderPayment_Date` date NOT NULL,
+  `OrderPayment_Discount` int(5) DEFAULT NULL,
+  `Order_ID` varchar(10) NOT NULL,
+  PRIMARY KEY (`OrderPayment_ID`),
+  KEY `Order_ID` (`Order_ID`),
+  CONSTRAINT `salesorderpayment_ibfk_1` FOREIGN KEY (`Order_ID`) REFERENCES `salesorders` (`Order_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `salesorderpayment`
+--
+
+LOCK TABLES `salesorderpayment` WRITE;
+/*!40000 ALTER TABLE `salesorderpayment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `salesorderpayment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `salesorderpaymentcheque`
+--
+
+DROP TABLE IF EXISTS `salesorderpaymentcheque`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `salesorderpaymentcheque` (
+  `OrderPayment_ID` varchar(10) NOT NULL,
+  `OrderPaymentCheque_No` varchar(20) NOT NULL,
+  `OrderPaymentBank_Name` varchar(20) DEFAULT NULL,
+  `OrderPaymentBank_Branch` varchar(20) DEFAULT NULL,
+  `OrderPaymentBank_Code` varchar(20) DEFAULT NULL,
+  `OrderPaymentCust_Name` varchar(50) DEFAULT NULL,
+  `OrderPaymentBank_IssueDate` date NOT NULL,
+  `OrderPaymentCheque_DueDate` date NOT NULL,
+  KEY `OrderPayment_ID` (`OrderPayment_ID`),
+  CONSTRAINT `salesorderpaymentcheque_ibfk_1` FOREIGN KEY (`OrderPayment_ID`) REFERENCES `salesorderpayment` (`OrderPayment_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `salesorderpaymentcheque`
+--
+
+LOCK TABLES `salesorderpaymentcheque` WRITE;
+/*!40000 ALTER TABLE `salesorderpaymentcheque` DISABLE KEYS */;
+/*!40000 ALTER TABLE `salesorderpaymentcheque` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `salesorderpaymentinstallment`
+--
+
+DROP TABLE IF EXISTS `salesorderpaymentinstallment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `salesorderpaymentinstallment` (
+  `OrderPaymentInstallment_ID` varchar(10) NOT NULL,
+  `OrderPayment_Amount` decimal(10,2) NOT NULL,
+  `OrderDue_Amount` decimal(10,2) NOT NULL,
+  `OrderPayment_Date` datetime NOT NULL,
+  `Installment_Time_No` int(6) DEFAULT NULL,
+  `Next_Installment_Date` date DEFAULT NULL,
+  `Installment_Amount` decimal(10,2) DEFAULT NULL,
+  `Order_ID` varchar(10) NOT NULL,
+  PRIMARY KEY (`OrderPaymentInstallment_ID`),
+  KEY `Order_ID` (`Order_ID`),
+  CONSTRAINT `salesorderpaymentinstallment_ibfk_1` FOREIGN KEY (`Order_ID`) REFERENCES `salesorders` (`Order_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `salesorderpaymentinstallment`
+--
+
+LOCK TABLES `salesorderpaymentinstallment` WRITE;
+/*!40000 ALTER TABLE `salesorderpaymentinstallment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `salesorderpaymentinstallment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `salesorders`
+--
+
+DROP TABLE IF EXISTS `salesorders`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `salesorders` (
+  `Order_ID` varchar(10) NOT NULL,
+  `Order_Date` datetime NOT NULL,
+  `Total_Amount` decimal(10,2) DEFAULT NULL,
+  `Discount` decimal(5,2) DEFAULT NULL,
+  `Cust_ID` varchar(10) NOT NULL,
+  `Transaction_ID` varchar(10) NOT NULL,
+  PRIMARY KEY (`Order_ID`),
+  KEY `Cust_ID` (`Cust_ID`),
+  KEY `Transaction_ID` (`Transaction_ID`),
+  CONSTRAINT `salesorders_ibfk_1` FOREIGN KEY (`Cust_ID`) REFERENCES `customer` (`Cust_ID`),
+  CONSTRAINT `salesorders_ibfk_2` FOREIGN KEY (`Transaction_ID`) REFERENCES `transaction` (`Transaction_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `salesorders`
+--
+
+LOCK TABLES `salesorders` WRITE;
+/*!40000 ALTER TABLE `salesorders` DISABLE KEYS */;
+/*!40000 ALTER TABLE `salesorders` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `serviceinvoice`
+--
+
+DROP TABLE IF EXISTS `serviceinvoice`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `serviceinvoice` (
+  `Invoice_No` varchar(6) NOT NULL,
+  `Date` datetime NOT NULL,
+  `Amount` decimal(10,2) NOT NULL,
+  `Discount` int(5) DEFAULT NULL,
+  `Service_Order_ID` varchar(6) NOT NULL,
+  PRIMARY KEY (`Invoice_No`),
+  KEY `Service_Order_ID` (`Service_Order_ID`),
+  CONSTRAINT `serviceinvoice_ibfk_1` FOREIGN KEY (`Service_Order_ID`) REFERENCES `serviceorder` (`Service_Order_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `serviceinvoice`
+--
+
+LOCK TABLES `serviceinvoice` WRITE;
+/*!40000 ALTER TABLE `serviceinvoice` DISABLE KEYS */;
+/*!40000 ALTER TABLE `serviceinvoice` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `serviceinvoicecheque`
+--
+
+DROP TABLE IF EXISTS `serviceinvoicecheque`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `serviceinvoicecheque` (
+  `Invoice_No` varchar(10) NOT NULL,
+  `InvoiceCheque_No` varchar(20) NOT NULL,
+  `InvoiceBank_Name` varchar(20) DEFAULT NULL,
+  `InvoiceBank_Branch` varchar(20) DEFAULT NULL,
+  `InvoiceBank_Code` varchar(20) DEFAULT NULL,
+  `InvoiceCust_Name` varchar(50) DEFAULT NULL,
+  `InvoiceBank_IssueDate` date NOT NULL,
+  `InvoiceCheque_DueDate` date NOT NULL,
+  KEY `Invoice_No` (`Invoice_No`),
+  CONSTRAINT `serviceinvoicecheque_ibfk_1` FOREIGN KEY (`Invoice_No`) REFERENCES `serviceinvoice` (`Invoice_No`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `serviceinvoicecheque`
+--
+
+LOCK TABLES `serviceinvoicecheque` WRITE;
+/*!40000 ALTER TABLE `serviceinvoicecheque` DISABLE KEYS */;
+/*!40000 ALTER TABLE `serviceinvoicecheque` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `serviceitem`
+--
+
+DROP TABLE IF EXISTS `serviceitem`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `serviceitem` (
+  `Item_Code` varchar(6) NOT NULL,
+  `Description` varchar(50) NOT NULL,
+  `Model_No` varchar(20) DEFAULT NULL,
+  `Serial_No` varchar(20) DEFAULT NULL,
+  `Item_Brand_Name` varchar(30) DEFAULT NULL,
+  `Current_Value` decimal(10,2) DEFAULT NULL,
+  `Work_Finish_Date` datetime DEFAULT NULL,
+  `Item_Can_Be_Repair` binary(1) DEFAULT NULL,
+  `Service_Order_ID` varchar(6) NOT NULL,
+  PRIMARY KEY (`Item_Code`),
+  KEY `Service_Order_ID` (`Service_Order_ID`),
+  CONSTRAINT `serviceitem_ibfk_1` FOREIGN KEY (`Service_Order_ID`) REFERENCES `serviceorder` (`Service_Order_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `serviceitem`
+--
+
+LOCK TABLES `serviceitem` WRITE;
+/*!40000 ALTER TABLE `serviceitem` DISABLE KEYS */;
+/*!40000 ALTER TABLE `serviceitem` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `serviceitemremarks`
+--
+
+DROP TABLE IF EXISTS `serviceitemremarks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `serviceitemremarks` (
+  `Item_Remark_No` int(6) NOT NULL,
+  `Item_Remark_Description` varchar(50) NOT NULL,
+  `Item_Code` varchar(6) NOT NULL,
+  PRIMARY KEY (`Item_Remark_No`,`Item_Code`),
+  KEY `Item_Code` (`Item_Code`),
+  CONSTRAINT `serviceitemremarks_ibfk_1` FOREIGN KEY (`Item_Code`) REFERENCES `serviceitem` (`Item_Code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `serviceitemremarks`
+--
+
+LOCK TABLES `serviceitemremarks` WRITE;
+/*!40000 ALTER TABLE `serviceitemremarks` DISABLE KEYS */;
+/*!40000 ALTER TABLE `serviceitemremarks` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `serviceorder`
+--
+
+DROP TABLE IF EXISTS `serviceorder`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `serviceorder` (
+  `Service_Order_ID` varchar(6) NOT NULL,
+  `Duration` varchar(15) DEFAULT NULL,
+  `Order_Date` datetime NOT NULL,
+  `Issue_Date` date DEFAULT NULL,
+  `Total_Cost_Amount` decimal(10,2) DEFAULT NULL,
+  `Cust_ID` varchar(6) NOT NULL,
+  `Transaction_ID` varchar(10) NOT NULL,
+  PRIMARY KEY (`Service_Order_ID`),
+  KEY `Cust_ID` (`Cust_ID`),
+  KEY `Transaction_ID` (`Transaction_ID`),
+  CONSTRAINT `serviceorder_ibfk_1` FOREIGN KEY (`Cust_ID`) REFERENCES `customer` (`Cust_ID`),
+  CONSTRAINT `serviceorder_ibfk_2` FOREIGN KEY (`Transaction_ID`) REFERENCES `transaction` (`Transaction_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `serviceorder`
+--
+
+LOCK TABLES `serviceorder` WRITE;
+/*!40000 ALTER TABLE `serviceorder` DISABLE KEYS */;
+/*!40000 ALTER TABLE `serviceorder` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `solditem`
+--
+
+DROP TABLE IF EXISTS `solditem`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `solditem` (
+  `Serial_No` varchar(20) DEFAULT NULL,
+  `Model_No` varchar(20) NOT NULL,
+  `Item_Description` varchar(100) DEFAULT NULL,
+  `Item_Brand_Name` varchar(30) DEFAULT NULL,
+  `Receive_price` decimal(10,2) DEFAULT NULL,
+  `Issue_price` decimal(10,2) DEFAULT NULL,
+  `Item_Qty` int(20) DEFAULT NULL,
+  `Warranty_Period` varchar(50) DEFAULT NULL,
+  `Order_ID` varchar(10) NOT NULL,
+  PRIMARY KEY (`Model_No`,`Order_ID`),
+  KEY `Order_ID` (`Order_ID`),
+  CONSTRAINT `solditem_ibfk_1` FOREIGN KEY (`Model_No`) REFERENCES `salesitem` (`Model_No`),
+  CONSTRAINT `solditem_ibfk_2` FOREIGN KEY (`Order_ID`) REFERENCES `salesorders` (`Order_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `solditem`
+--
+
+LOCK TABLES `solditem` WRITE;
+/*!40000 ALTER TABLE `solditem` DISABLE KEYS */;
+/*!40000 ALTER TABLE `solditem` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `systemuser`
+--
+
+DROP TABLE IF EXISTS `systemuser`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `systemuser` (
+  `Employee_ID` varchar(6) NOT NULL,
+  `User_Name` varchar(30) NOT NULL,
+  `Password` text NOT NULL,
+  PRIMARY KEY (`User_Name`),
+  KEY `Employee_ID` (`Employee_ID`),
+  CONSTRAINT `systemuser_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `employee` (`Employee_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `systemuser`
+--
+
+LOCK TABLES `systemuser` WRITE;
+/*!40000 ALTER TABLE `systemuser` DISABLE KEYS */;
+/*!40000 ALTER TABLE `systemuser` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `transaction`
+--
+
+DROP TABLE IF EXISTS `transaction`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `transaction` (
+  `Transaction_ID` varchar(10) NOT NULL,
+  `Transaction_Date` datetime NOT NULL,
+  `Transaction_Type` int(10) DEFAULT NULL,
+  PRIMARY KEY (`Transaction_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `transaction`
+--
+
+LOCK TABLES `transaction` WRITE;
+/*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
+/*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `vendor`
+--
+
+DROP TABLE IF EXISTS `vendor`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `vendor` (
+  `Vendor_ID` varchar(10) NOT NULL,
+  `Vendor_Name` varchar(30) NOT NULL,
+  `Vendor_Address` varchar(50) DEFAULT NULL,
+  `Contact_No1` varchar(10) DEFAULT NULL,
+  `Contact_No2` varchar(10) DEFAULT NULL,
+  `Contact_No3` varchar(10) DEFAULT NULL,
+  `FAX_No` varchar(10) DEFAULT NULL,
+  `Email` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`Vendor_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `vendor`
+--
+
+LOCK TABLES `vendor` WRITE;
+/*!40000 ALTER TABLE `vendor` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vendor` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2013-05-10 12:50:52

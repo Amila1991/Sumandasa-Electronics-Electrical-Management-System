@@ -1,0 +1,813 @@
+-- MySQL dump 10.10
+--
+-- Host: localhost    Database: SumanadasaElectrical
+-- ------------------------------------------------------
+-- Server version	5.0.17-nt
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `accessoriescategory`
+--
+
+DROP TABLE IF EXISTS `accessoriescategory`;
+CREATE TABLE `accessoriescategory` (
+  `Accessories_Category_ID` varchar(6) NOT NULL,
+  `Accessories_Category_Description` varchar(30) NOT NULL,
+  PRIMARY KEY  (`Accessories_Category_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `accessoriescategory`
+--
+
+
+/*!40000 ALTER TABLE `accessoriescategory` DISABLE KEYS */;
+LOCK TABLES `accessoriescategory` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `accessoriescategory` ENABLE KEYS */;
+
+--
+-- Table structure for table `accessoriesdetail`
+--
+
+DROP TABLE IF EXISTS `accessoriesdetail`;
+CREATE TABLE `accessoriesdetail` (
+  `Accessory_ID` varchar(6) NOT NULL,
+  `Job_Code` varchar(6) NOT NULL,
+  `Unit_Issue_Price` decimal(10,2) NOT NULL,
+  `Qty` int(20) NOT NULL,
+  `Accessories_Deatil_Issue` binary(1) NOT NULL,
+  PRIMARY KEY  (`Accessory_ID`,`Job_Code`),
+  KEY `Job_Code` (`Job_Code`),
+  CONSTRAINT `accessoriesdetail_ibfk_1` FOREIGN KEY (`Accessory_ID`) REFERENCES `accessory` (`Accessory_ID`),
+  CONSTRAINT `accessoriesdetail_ibfk_2` FOREIGN KEY (`Job_Code`) REFERENCES `jobdetail` (`Job_Code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `accessoriesdetail`
+--
+
+
+/*!40000 ALTER TABLE `accessoriesdetail` DISABLE KEYS */;
+LOCK TABLES `accessoriesdetail` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `accessoriesdetail` ENABLE KEYS */;
+
+--
+-- Table structure for table `accessory`
+--
+
+DROP TABLE IF EXISTS `accessory`;
+CREATE TABLE `accessory` (
+  `Accessory_ID` varchar(6) NOT NULL,
+  `Accessory_Description` varchar(30) NOT NULL,
+  `Accessory_Brand_Name` varchar(30) NOT NULL,
+  `Unit_Purchase_Price` decimal(10,2) NOT NULL,
+  `Unit_Issue_Price` decimal(10,2) NOT NULL,
+  `QtyOnHand` int(20) NOT NULL,
+  `Accessories_Category_ID` varchar(6) NOT NULL,
+  PRIMARY KEY  (`Accessory_ID`),
+  KEY `Accessories_Category_ID` (`Accessories_Category_ID`),
+  CONSTRAINT `accessory_ibfk_1` FOREIGN KEY (`Accessories_Category_ID`) REFERENCES `accessoriescategory` (`Accessories_Category_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `accessory`
+--
+
+
+/*!40000 ALTER TABLE `accessory` DISABLE KEYS */;
+LOCK TABLES `accessory` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `accessory` ENABLE KEYS */;
+
+--
+-- Table structure for table `conditions`
+--
+
+DROP TABLE IF EXISTS `conditions`;
+CREATE TABLE `conditions` (
+  `Condition_No` int(6) NOT NULL,
+  `Condition_Description` varchar(50) NOT NULL,
+  `Item_Code` varchar(6) NOT NULL,
+  PRIMARY KEY  (`Condition_No`,`Item_Code`),
+  KEY `Item_Code` (`Item_Code`),
+  CONSTRAINT `conditions_ibfk_1` FOREIGN KEY (`Item_Code`) REFERENCES `serviceitem` (`Item_Code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `conditions`
+--
+
+
+/*!40000 ALTER TABLE `conditions` DISABLE KEYS */;
+LOCK TABLES `conditions` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `conditions` ENABLE KEYS */;
+
+--
+-- Table structure for table `customer`
+--
+
+DROP TABLE IF EXISTS `customer`;
+CREATE TABLE `customer` (
+  `Cust_ID` varchar(6) NOT NULL,
+  `Cust_Name` varchar(30) NOT NULL,
+  `Cust_Address` varchar(50) default NULL,
+  `Contact_No` varchar(10) default NULL,
+  PRIMARY KEY  (`Cust_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `customer`
+--
+
+
+/*!40000 ALTER TABLE `customer` DISABLE KEYS */;
+LOCK TABLES `customer` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `customer` ENABLE KEYS */;
+
+--
+-- Table structure for table `employee`
+--
+
+DROP TABLE IF EXISTS `employee`;
+CREATE TABLE `employee` (
+  `Employee_ID` varchar(6) NOT NULL,
+  `Employee_Name` varchar(30) NOT NULL,
+  `Employee_Address` varchar(50) default NULL,
+  `Employee_Contact` varchar(10) default NULL,
+  `Employee_NIC` varchar(10) default NULL,
+  `Employee_Type_ID` varchar(6) NOT NULL,
+  PRIMARY KEY  (`Employee_ID`),
+  KEY `Employee_Type_ID` (`Employee_Type_ID`),
+  CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`Employee_Type_ID`) REFERENCES `employeetype` (`Employee_Type_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `employee`
+--
+
+
+/*!40000 ALTER TABLE `employee` DISABLE KEYS */;
+LOCK TABLES `employee` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `employee` ENABLE KEYS */;
+
+--
+-- Table structure for table `employeedetail`
+--
+
+DROP TABLE IF EXISTS `employeedetail`;
+CREATE TABLE `employeedetail` (
+  `Employee_ID` varchar(6) NOT NULL,
+  `Job_Code` varchar(6) NOT NULL,
+  PRIMARY KEY  (`Employee_ID`,`Job_Code`),
+  KEY `Job_Code` (`Job_Code`),
+  CONSTRAINT `employeedetail_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `employee` (`Employee_ID`),
+  CONSTRAINT `employeedetail_ibfk_2` FOREIGN KEY (`Job_Code`) REFERENCES `jobdetail` (`Job_Code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `employeedetail`
+--
+
+
+/*!40000 ALTER TABLE `employeedetail` DISABLE KEYS */;
+LOCK TABLES `employeedetail` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `employeedetail` ENABLE KEYS */;
+
+--
+-- Table structure for table `employeequit`
+--
+
+DROP TABLE IF EXISTS `employeequit`;
+CREATE TABLE `employeequit` (
+  `Employee_ID` varchar(6) NOT NULL,
+  `Employee_Name` varchar(30) NOT NULL,
+  `Employee_Address` varchar(50) default NULL,
+  `Employee_Contact` varchar(10) default NULL,
+  `Employee_NIC` varchar(10) default NULL,
+  `Employee_Type_ID` varchar(6) NOT NULL,
+  PRIMARY KEY  (`Employee_ID`),
+  KEY `Employee_Type_ID` (`Employee_Type_ID`),
+  CONSTRAINT `employeequit_ibfk_1` FOREIGN KEY (`Employee_Type_ID`) REFERENCES `employeetype` (`Employee_Type_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `employeequit`
+--
+
+
+/*!40000 ALTER TABLE `employeequit` DISABLE KEYS */;
+LOCK TABLES `employeequit` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `employeequit` ENABLE KEYS */;
+
+--
+-- Table structure for table `employeetype`
+--
+
+DROP TABLE IF EXISTS `employeetype`;
+CREATE TABLE `employeetype` (
+  `Employee_Type_ID` varchar(6) NOT NULL,
+  `Employee_Type_Name` varchar(30) NOT NULL,
+  `Employee_Type_Description` varchar(50) default NULL,
+  PRIMARY KEY  (`Employee_Type_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `employeetype`
+--
+
+
+/*!40000 ALTER TABLE `employeetype` DISABLE KEYS */;
+LOCK TABLES `employeetype` WRITE;
+INSERT INTO `employeetype` VALUES ('ET1','Admin',NULL),('ET2','Technician',NULL),('ET3','Cashier',NULL),('ET4','Assistant Technician',NULL);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `employeetype` ENABLE KEYS */;
+
+--
+-- Table structure for table `grn`
+--
+
+DROP TABLE IF EXISTS `grn`;
+CREATE TABLE `grn` (
+  `GRN_ID` varchar(10) NOT NULL,
+  `GRN_Date` datetime NOT NULL,
+  `Total_Amount` decimal(10,2) default NULL,
+  `Discount` decimal(5,2) default NULL,
+  `Vendor_ID` varchar(10) NOT NULL,
+  PRIMARY KEY  (`GRN_ID`),
+  KEY `Vendor_ID` (`Vendor_ID`),
+  CONSTRAINT `grn_ibfk_1` FOREIGN KEY (`Vendor_ID`) REFERENCES `vendor` (`Vendor_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `grn`
+--
+
+
+/*!40000 ALTER TABLE `grn` DISABLE KEYS */;
+LOCK TABLES `grn` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `grn` ENABLE KEYS */;
+
+--
+-- Table structure for table `grndetail`
+--
+
+DROP TABLE IF EXISTS `grndetail`;
+CREATE TABLE `grndetail` (
+  `GRN_ID` varchar(10) NOT NULL,
+  `Model_No` varchar(20) NOT NULL,
+  `Receive_price` decimal(10,2) default NULL,
+  `GRN_Qty` int(20) default NULL,
+  PRIMARY KEY  (`GRN_ID`,`Model_No`),
+  KEY `Model_No` (`Model_No`),
+  CONSTRAINT `grndetail_ibfk_1` FOREIGN KEY (`GRN_ID`) REFERENCES `grn` (`GRN_ID`),
+  CONSTRAINT `grndetail_ibfk_2` FOREIGN KEY (`Model_No`) REFERENCES `salesitem` (`Model_No`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `grndetail`
+--
+
+
+/*!40000 ALTER TABLE `grndetail` DISABLE KEYS */;
+LOCK TABLES `grndetail` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `grndetail` ENABLE KEYS */;
+
+--
+-- Table structure for table `grnpayment`
+--
+
+DROP TABLE IF EXISTS `grnpayment`;
+CREATE TABLE `grnpayment` (
+  `GRNPayment_ID` varchar(10) NOT NULL,
+  `GRNPayment_Amount` decimal(10,2) NOT NULL,
+  `GRNPayment_Date` date NOT NULL,
+  `GRNPayment_Discount` int(5) default NULL,
+  `GRN_ID` varchar(10) NOT NULL,
+  PRIMARY KEY  (`GRNPayment_ID`),
+  KEY `GRN_ID` (`GRN_ID`),
+  CONSTRAINT `grnpayment_ibfk_1` FOREIGN KEY (`GRN_ID`) REFERENCES `grn` (`GRN_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `grnpayment`
+--
+
+
+/*!40000 ALTER TABLE `grnpayment` DISABLE KEYS */;
+LOCK TABLES `grnpayment` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `grnpayment` ENABLE KEYS */;
+
+--
+-- Table structure for table `grnpaymentcheque`
+--
+
+DROP TABLE IF EXISTS `grnpaymentcheque`;
+CREATE TABLE `grnpaymentcheque` (
+  `GRNPayment_ID` varchar(10) NOT NULL,
+  `GRNPaymentCheque_No` varchar(20) NOT NULL,
+  `GRNPaymentBank_Name` varchar(20) default NULL,
+  `GRNPaymentBank_Branch` varchar(20) default NULL,
+  `GRNPaymentBank_Code` varchar(20) default NULL,
+  `GRNPaymentCust_Name` varchar(50) default NULL,
+  `GRNPaymentBank_IssueDate` date NOT NULL,
+  `GRNPaymentCheque_DueDate` date NOT NULL,
+  KEY `GRNPayment_ID` (`GRNPayment_ID`),
+  CONSTRAINT `grnpaymentcheque_ibfk_1` FOREIGN KEY (`GRNPayment_ID`) REFERENCES `grnpayment` (`GRNPayment_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `grnpaymentcheque`
+--
+
+
+/*!40000 ALTER TABLE `grnpaymentcheque` DISABLE KEYS */;
+LOCK TABLES `grnpaymentcheque` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `grnpaymentcheque` ENABLE KEYS */;
+
+--
+-- Table structure for table `jobcurrentstate`
+--
+
+DROP TABLE IF EXISTS `jobcurrentstate`;
+CREATE TABLE `jobcurrentstate` (
+  `Current_State_Code` int(6) NOT NULL,
+  `Current_State_Description` varchar(50) NOT NULL,
+  `State_Add_Date` datetime NOT NULL,
+  `Job_Code` varchar(6) NOT NULL,
+  PRIMARY KEY  (`Current_State_Code`,`Job_Code`),
+  KEY `Job_Code` (`Job_Code`),
+  CONSTRAINT `jobcurrentstate_ibfk_1` FOREIGN KEY (`Job_Code`) REFERENCES `jobdetail` (`Job_Code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `jobcurrentstate`
+--
+
+
+/*!40000 ALTER TABLE `jobcurrentstate` DISABLE KEYS */;
+LOCK TABLES `jobcurrentstate` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `jobcurrentstate` ENABLE KEYS */;
+
+--
+-- Table structure for table `jobdescription`
+--
+
+DROP TABLE IF EXISTS `jobdescription`;
+CREATE TABLE `jobdescription` (
+  `Decription_No` int(6) NOT NULL,
+  `Job_Decription` varchar(50) NOT NULL,
+  `Job_Code` varchar(6) NOT NULL,
+  PRIMARY KEY  (`Decription_No`,`Job_Code`),
+  KEY `Job_Code` (`Job_Code`),
+  CONSTRAINT `jobdescription_ibfk_1` FOREIGN KEY (`Job_Code`) REFERENCES `jobdetail` (`Job_Code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `jobdescription`
+--
+
+
+/*!40000 ALTER TABLE `jobdescription` DISABLE KEYS */;
+LOCK TABLES `jobdescription` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `jobdescription` ENABLE KEYS */;
+
+--
+-- Table structure for table `jobdetail`
+--
+
+DROP TABLE IF EXISTS `jobdetail`;
+CREATE TABLE `jobdetail` (
+  `Job_Code` varchar(6) NOT NULL,
+  `Job_Deficiency` varchar(30) NOT NULL,
+  `Labour_Cost` decimal(10,2) default NULL,
+  `Transport_Charges` decimal(10,2) default NULL,
+  `Job_Expenses_Charges` decimal(10,2) default NULL,
+  `Other_Expenses_Charges` decimal(10,2) default NULL,
+  `Start_Date` datetime NOT NULL,
+  `Finish_Date` datetime default NULL,
+  `Work_Man_Hours` int(10) default NULL,
+  `Item_Code` varchar(6) NOT NULL,
+  `Supervisor_ID` varchar(6) NOT NULL,
+  PRIMARY KEY  (`Job_Code`),
+  KEY `Supervisor_ID` (`Supervisor_ID`),
+  KEY `Item_Code` (`Item_Code`),
+  CONSTRAINT `jobdetail_ibfk_1` FOREIGN KEY (`Supervisor_ID`) REFERENCES `employee` (`Employee_ID`),
+  CONSTRAINT `jobdetail_ibfk_2` FOREIGN KEY (`Item_Code`) REFERENCES `serviceitem` (`Item_Code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `jobdetail`
+--
+
+
+/*!40000 ALTER TABLE `jobdetail` DISABLE KEYS */;
+LOCK TABLES `jobdetail` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `jobdetail` ENABLE KEYS */;
+
+--
+-- Table structure for table `removeemployeedetail`
+--
+
+DROP TABLE IF EXISTS `removeemployeedetail`;
+CREATE TABLE `removeemployeedetail` (
+  `Employee_ID` varchar(6) NOT NULL,
+  `Job_Code` varchar(6) NOT NULL,
+  PRIMARY KEY  (`Employee_ID`,`Job_Code`),
+  KEY `Job_Code` (`Job_Code`),
+  CONSTRAINT `removeemployeedetail_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `employee` (`Employee_ID`),
+  CONSTRAINT `removeemployeedetail_ibfk_2` FOREIGN KEY (`Job_Code`) REFERENCES `jobdetail` (`Job_Code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `removeemployeedetail`
+--
+
+
+/*!40000 ALTER TABLE `removeemployeedetail` DISABLE KEYS */;
+LOCK TABLES `removeemployeedetail` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `removeemployeedetail` ENABLE KEYS */;
+
+--
+-- Table structure for table `salesitem`
+--
+
+DROP TABLE IF EXISTS `salesitem`;
+CREATE TABLE `salesitem` (
+  `Model_No` varchar(20) NOT NULL,
+  `Item_Description` varchar(100) default NULL,
+  `Item_Brand_Name` varchar(30) default NULL,
+  `Receive_price` decimal(10,2) default NULL,
+  `Issue_price` decimal(10,2) default NULL,
+  `Item_Qty` int(20) default NULL,
+  `Warranty_Period` varchar(50) default NULL,
+  `ItemType_Code` varchar(10) NOT NULL,
+  PRIMARY KEY  (`Model_No`),
+  KEY `ItemType_Code` (`ItemType_Code`),
+  CONSTRAINT `salesitem_ibfk_1` FOREIGN KEY (`ItemType_Code`) REFERENCES `salesitemtype` (`ItemType_Code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `salesitem`
+--
+
+
+/*!40000 ALTER TABLE `salesitem` DISABLE KEYS */;
+LOCK TABLES `salesitem` WRITE;
+INSERT INTO `salesitem` VALUES ('18 LIT','ELECTRIQUE WATER GEYZERS','ELECTRIQUE','22327.00','23900.00',1,'','SIT000009'),('21B5RGE4TP','LG-CRT TELEVISION 21\"','LG','0.00','0.00',0,'','SIT000003'),('21GFX10N','SHARP-21\" TELEVISION','SHARP','0.00','0.00',0,'','SIT000003'),('21GFX10NZ','SHARP-21\" TELEVISION','SHARP','0.00','0.00',0,'','SIT000003'),('22LE5300','LG-LED TELEVISION','LG','0.00','0.00',0,'','SIT000003'),('22LK230','LG-LED TELEVISION','LG','0.00','0.00',0,'','SIT000003'),('22LS3500','LG-LED TELEVISION','LG','0.00','0.00',0,'','SIT000003'),('22LS3700','LG-LED TELEVISION','LG','0.00','0.00',0,'','SIT000003'),('30 LIT','ELECTRIQUE WATER GEYZERS','ELECTRIQUE','25398.00','26900.00',1,'','SIT000009'),('32CS460','LG-LCD TELEVISION','LG','0.00','0.00',0,'','SIT000003'),('32CS470','LG-LCD TELEVISION','LG','0.00','0.00',0,'','SIT000003'),('32LM3410','LG-LED TELEVISION','LG','0.00','0.00',0,'','SIT000003'),('32LS3100','LG-LED TELEVISION','LG','0.00','0.00',0,'','SIT000003'),('32LS3400','LG-LCD TELEVISION','LG','0.00','0.00',0,'','SIT000003'),('32LS3500','LG-LED TELEVISION','LG','0.00','0.00',0,'','SIT000003'),('40 LIT','ELECTRIQUE WATER GEYZERS','ELECTRIQUE','31457.00','33900.00',1,'','SIT000009'),('42LK410','LG-LCD TELEVISION','LG','0.00','0.00',0,'','SIT000003'),('45T-W','ABANS-18\" COMMERCIAL FAN- DOMESTIC GUARD','ABANS','0.00','0.00',0,'','SIT000007'),('50T-S','ABANS-20\" COMMERCIAL FAN- INDUSTRIAL GUARD','ABANS','0.00','0.00',0,'','SIT000007'),('55K204','ELBA-COOKER','ELBA','0.00','0.00',0,'','SIT000008'),('55M204','ELBA-COOKER','ELBA','0.00','0.00',0,'','SIT000008'),('55X340','GAS/ELEC.COOKER 3 GAS 1 ELEC','ELBA','0.00','0.00',0,'','SIT000008'),('628WB','HARVEST-HAND MIXER','HARVEST','0.00','0.00',0,'','SIT000009'),('ACF-563','CEILING FAN','ABANS','3818.00','4400.00',5,'','SIT000007'),('BC-110B','HAIER-BOTTLE COOLER','HAIER','38512.00','43500.00',1,'','SIT000006'),('BD-14','HAIER-FREEZER','HAIER','38512.00','40900.00',2,'','SIT000006'),('BD-19','HAIER-FREEZER','HAIER','44737.00','47900.00',2,'','SIT000006'),('BD620','LG-BLUE RAY DVD PLAYER','LG','0.00','0.00',0,'','SIT000005'),('DESIGNER','JARS SUPER DELUXE','JAIPAN','0.00','0.00',0,'','SIT000009'),('DFP600-T','ABANS-24\" DFP SERIES INDUSTRIAL FAN-2BLADE','ABANS','0.00','0.00',0,'','SIT000007'),('DFP750-T','ABANS-30\" DFP SERIES INDUSTRIAL FAN-3BLADE','ABANS','0.00','0.00',0,'','SIT000007'),('DFP750-TW','ABANS-30\" DFP SERIES INDUSTRIAL FAN-3BLADE','ABANS','0.00','0.00',0,'','SIT000007'),('DH-3120S','LG-HOME THEATRE','LG','17592.00','19900.00',5,'','SIT000005'),('DH6520T','LG-HOME THEATRE SYSTEM','LG','49491.00','52990.00',1,'','SIT000005'),('DH7620T','LG-DVD HOME THEATRE SYSTEM','LG','0.00','0.00',0,'','SIT000005'),('DV652','LG-DVD PLAYER','LG','5592.00','6000.00',5,'','SIT000005'),('ECH-612MB','ELBA-COOKER HOOD','ELBA','0.00','0.00',0,'','SIT000008'),('ECH-613BK','ELBA-COOKER HOOD','ELBA','0.00','0.00',0,'','SIT000008'),('EML-36E','ELECTRIQUE WATER HEATER','ELECTRIQUE','0.00','0.00',0,'','SIT000009'),('EML-36P','ELECTRIQUE WATER HEATER','ELECTRIQUE','0.00','0.00',0,'','SIT000009'),('ESI530','ELECTROLUX-STEAM IRON','ELECTROLUX','0.00','0.00',0,'','SIT000009'),('F1261RD','LG-WASHER DRYER','LG','0.00','0.00',0,'','SIT000001'),('FB3501T3','14\" BOX FAN','AIRMATE','0.00','0.00',0,'','SIT000007'),('FD1011','FRIGIDAIRE-HAIR DRYER','FRIGIDAIRE','0.00','0.00',0,'','SIT000009'),('FD1121','FRIGIDAIRE-STEAM IRON','FRIGIDAIRE','0.00','0.00',0,'','SIT000009'),('FD1151','FRIGIDAIRE-TRAVEL IRON','FRIGIDAIRE','0.00','0.00',0,'','SIT000009'),('FD2111','FRIGIDAIRE-0.8L KRTTLE','FRIGIDAIRE','0.00','0.00',0,'','SIT000009'),('FD2116','FRIGIDAIRE-S/S KETTLE','FRIGIDAIRE','0.00','0.00',0,'','SIT000009'),('FD2117','FRIGIDAIRE-S/S DOME KETTLE','FRIGIDAIRE','0.00','0.00',0,'','SIT000009'),('FD2201','FRIGIDAIRE-1.0L KETTLE W/UTILITY TRAY','FRIGIDAIRE','0.00','0.00',0,'','SIT000009'),('FD3111','FRIGIDAIRE-TOASTER(2SLICE)','FRIGIDAIRE','2407.00','2600.00',3,'','SIT000009'),('FD5115','FRIGIDAIRE-FOOD PROCESSOR','FRIGIDAIRE','5727.00','6200.00',2,'','SIT000009'),('FD5121','FRIGIDAIRE-HAND MIXER W/BOWL','FRIGIDAIRE','2822.00','3050.00',5,'','SIT000009'),('FD5122','FRIGIDAIRE--HAND MIXER W/PORTABLE BOWL','FRIGIDAIRE','0.00','0.00',0,'','SIT000009'),('FD6211','FRIGIDAIRE-ELECTRIC OVEN 30L','FRIGIDAIRE','0.00','0.00',0,'','SIT000004'),('FD6311','FRIGIDAIRE-HALOGEN OVEN','FRIGIDAIRE','0.00','0.00',0,'','SIT000004'),('FD8051D','FRIGIDAIRE-DELUXE RICE COOKER 1.5L','FRIGIDAIRE','0.00','0.00',0,'','SIT000008'),('FD8052D','FRIGIDAIRE-DELUXE RICE COOKER 1.8L','FRIGIDAIRE','0.00','0.00',0,'','SIT000008'),('FD8053D','FRIGIDAIRE-DELUXE RICE COOKER 2.0L','FRIGIDAIRE','0.00','0.00',0,'','SIT000008'),('FD8054D','FRIGIDAIRE-DELUXE RICE COOKER 2.8L','FRIGIDAIRE','0.00','0.00',0,'','SIT000008'),('FD8111','FRIGIDAIRE-INDUCTION COOKER','FRIGIDAIRE','0.00','0.00',0,'','SIT000008'),('FD9001','FRIGIDAIRE-360 DEGREE ROTATABLE FAN','FRIGIDAIRE','0.00','0.00',0,'','SIT000007'),('FDBL5108','FRIGIDAIRE-HAND BLENDER','FRIGIDAIRE','0.00','0.00',0,'','SIT000009'),('FDCM7188','FRIGIDAIRE-COFFE MAKER','FRIGIDAIRE','0.00','0.00',0,'','SIT000009'),('FE4-50','ABANS-20\" LFE FLOOR FAN WITH BLADE','ABANS','5478.00','5900.00',1,'','SIT000007'),('FM-1300','JARS FAMILY MATE','JAIPAN','5573.00','6000.00',10,'','SIT000009'),('FP4507','AIRMATE-STAND FAN-18\"','AIRMATE','0.00','0.00',0,'','SIT000007'),('FS4021R','AIRMATE-16\" STAND FAN W/REMORT','AIRMATE','0.00','0.00',0,'','SIT000007'),('FW-624T3','AIRMATE-WALL FAN-16\" W/FW','AIRMATE','0.00','0.00',0,'','SIT000007'),('GC-039','LG-REFRIGERATOR-SUPER WHITE','LG','20720.00','22900.00',3,'','SIT000002'),('GL-B252VME','LG-REFRIGERATOR-MIDNIGHT DAZZLE/NEW SILVER','LG','50782.00','56900.00',6,'','SIT000002'),('GL-G432DM','LG-REFRIGERATOR-SIPER INOX/SUPER WHITE','LG','0.00','0.00',0,'','SIT000002'),('GL-G432YM','LG-REFRIGERATOR-SUPER INOX/LIGHT INOX','LG','79112.00','84900.00',1,'','SIT000002'),('GL-M252VME','LG-REFRIGERATOR-MIDNIGHT DAZZLE/NEW SILVER','LG','59898.00','64900.00',6,'','SIT000002'),('GL-M282VME','LG-REFRIGERATOR-NEW SILVER/MIDNIGHT DAZZLE/LINEAR TANGO/WOODEN TANGO','LG','70110.00','73900.00',2,'','SIT000002'),('GL-M312VME','LG-REFRIGERATOR-MIDNIGHT DAZZLE/LIGHT INOX/WOOD TANGO/NEW SILVER','LG','0.00','0.00',0,'','SIT000002'),('GL-M342VM','LG-REFRIGERATOR-LIGHT INOX/MIDNIGHT DAZZLE/SUPER WHITE/WOOD TANGO','LG','72072.00','77900.00',1,'','SIT000002'),('GT30R-S1','ELECTRIQUE-ELECTRIC OVEN','ELECTRIQUE','0.00','0.00',0,'','SIT000004'),('HAB162-7','HARVEST-HAIR CARE SET','HARVEST','0.00','0.00',0,'','SIT000009'),('HBL-1122','HAIER-PLASTIC BLENDER','HAIER','0.00','0.00',0,'','SIT000009'),('HCF575','HAIER-CHEST FREEZER','HAIER','70882.00','74900.00',2,'','SIT000006'),('HCF685','HAIER-DEEP FREEZER','HAIER','0.00','0.00',0,'','SIT000006'),('HCF775','HAIER-CHEST FREEZER','HAIER','89557.00','95900.00',1,'','SIT000006'),('HPF-603ASS','HAIER-STEAM IRON','HAIER','0.00','0.00',0,'','SIT000009'),('HRD-205MPE','HAIER-REFRIGERATOR-HL/SLIVER','HAIER','0.00','0.00',0,'','SIT000002'),('HT856','LG-HOME THEATRE SYSTEM HT856/PF','LG','0.00','0.00',0,'','SIT000005'),('HT906TA','LG-DVD 5.1 HOME THEATRE SYSTEM','LG','0.00','0.00',0,'','SIT000005'),('LC24DC50M','SHARP-24\" LED TELEVISION','SHARP','0.00','0.00',0,'','SIT000003'),('LC24DC50MZ','SHARP-24\" LED TELEVISION','SHARP','0.00','0.00',0,'','SIT000003'),('LC32LE340M','SHARP-32\" LED TELEVISION','SHARP','0.00','0.00',0,'','SIT000003'),('LC32LE340MZ','SHARP-32\" LED TELEVISION','SHARP','0.00','0.00',0,'','SIT000003'),('LE19C430','HAIER-19\" LED TELEVISION','HAIER','14492.00','16900.00',10,'','SIT000003'),('LE22T1000F','HAIER-22\" LED TELEVISION','HAIER','20792.00','22990.00',4,'','SIT000003'),('LE241000F','HAIER-24\" LED TELEVISION','HAIER','24742.00','26990.00',7,'','SIT000003'),('LE32T1000','HAIER-32\" LED TELEVISION','HAIER','36242.00','39900.00',5,'','SIT000003'),('LW-037B','SANDWICH TOASTER','HARVEST','1440.00','1590.00',5,'','SIT000009'),('MBD106','LG-DVD HIFI SYSTEM','LG','0.00','0.00',0,'','SIT000005'),('MBT506','LG-DVD HIFI SYSTEM','LG','40241.00','42900.00',5,'','SIT000005'),('MC-7646UQ','LG-MICROWAVE OVEN','LG','0.00','0.00',0,'','SIT000004'),('MC8289URC','LG-MICROWAVE OVEN','LG','0.00','0.00',0,'','SIT000004'),('MH7042G','LG-MICROWAVE OVEN','LG','0.00','0.00',0,'','SIT000004'),('MH7049E','LG-MICROWAVE OVEN','LG','0.00','0.00',0,'','SIT000004'),('MH7849H','LG-MICROWAVE OVEN','LG','0.00','0.00',0,'','SIT000004'),('MJ3281BC','LG-MICROWAVE OVEN','LG','0.00','0.00',0,'','SIT000004'),('MS2041C','LG-MICROWAVE OVEN','LG','9703.00','10600.00',2,'','SIT000004'),('MS2342B','LG-MICROWAVE OVEN','LG','11952.00','12900.00',2,'','SIT000004'),('MS2348H','LG-MICROWAVE OVEN','LG','0.00','0.00',0,'','SIT000004'),('MS2549DR','LG-MICROWAVE OVEN','LG','0.00','0.00',0,'','SIT000004'),('MS3042G','LG-MICROWAVE OVEN','LG','12857.00','13900.00',1,'','SIT000004'),('QSS-1800','ABANS GAS COOKER','ABANS','5727.00','6700.00',5,'','SIT000008'),('RS-107','ABANS-SINGLE BURNER GAS COOKER','ABANS','0.00','0.00',0,'','SIT000008'),('SC-210GA','HAIER-BOTTLE COOLER','HAIER','51944.00','60400.00',1,'','SIT000006'),('SC-240GA','HAIER-BOTTLE COOLER','HAIER','0.00','0.00',0,'','SIT000006'),('SC-300A','BOTTLE COOLER','LG','71451.00','75900.00',1,'','SIT000006'),('SC-380A','HAIER-BOTTLE COOLERS','LG','0.00','0.00',0,'','SIT000006'),('SD-242','HAIER-DISPLAY FREEZER','HAIER','0.00','0.00',0,'','SIT000006'),('SD-332','HAIER-DISPLAY FREEZER','HAIER','82170.00','90900.00',1,'','SIT000006'),('SI-102','HARVEST-STEAM IRON','HARVEST','1359.00','1499.00',5,'','SIT000009'),('SR-S185SBE','ANYO REFRIGERATOR-STYLISH SILVER','SANYO','0.00','0.00',0,'','SIT000002'),('STC220S','ABANS-2.2L RICE COOKER W/STEAMER','ABANS','2552.00','2750.00',5,'','SIT000008'),('STC51S','ABANS-1.5L RICE COOKER W/STEAMER','ABANS','1826.00','2000.00',5,'','SIT000008'),('STV13','ABANS-24L ELECTRONIC OVEN-S/STEEL','ABANS','0.00','0.00',0,'','SIT000004'),('STV17','ABANS-26L ELECTRONIC OVEN','ABANS','0.00','0.00',0,'','SIT000004'),('W-629RMN','AIRMATE-WALL FAN-16\"','AIRMATE','0.00','0.00',0,'','SIT000007'),('WD-1050LDPE','LG-FULLY AUTO-WASHING MACHINE','LG','65700.00','69900.00',1,'','SIT000001'),('WD-1070QDP','LG-FULLY AUTO-WASHING MACHINE','LG','0.00','0.00',0,'','SIT000001'),('WF761E','LG-FULLY AUTO 7KG WASHING MACHINE','LG','46680.00','49900.00',3,'','SIT000001'),('WF950E','LG-FULLY AUTO-WASHING MACHINE','LG','0.00','0.00',0,'','SIT000001'),('WK-2028','HARVEST-SS KETTLE-BLACK','HARVEST','2464.00','2700.00',5,'','SIT000009'),('WK-9920','HARVEST-JUG KETTLE','HARVEST','1452.00','1550.00',5,'','SIT000009'),('WP-610N','LG WASHING MACHINE','LG','0.00','0.00',0,'','SIT000001'),('WP-610NE','LG WASHING MACHINE','LG','0.00','0.00',0,'','SIT000001'),('WP900R','LG-SEMI/FULLY AUTO-WASHING MACHINE(SEMI AUTOMATIC-7KG','LG','37900.00','39900.00',1,'','SIT000001'),('WP900RE','LG-SEMI/FULLY AUTO-WASHING MACHINE(SEMI AUTOMATIC-7KG','LG','0.00','0.00',0,'','SIT000001'),('XD-40M','AIRMATE-WITH MESH FAN GUARDS','AIRMATE','0.00','0.00',0,'','SIT000007'),('XS-40M','AIRMATE-WITH MESH GUARDS','AIRMATE','3759.00','4099.00',0,'','SIT000007'),('XS40RE','AIRMATE-STAND FAN-XS40RE','AIRMATE','0.00','0.00',0,'','SIT000007');
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `salesitem` ENABLE KEYS */;
+
+--
+-- Table structure for table `salesitemtype`
+--
+
+DROP TABLE IF EXISTS `salesitemtype`;
+CREATE TABLE `salesitemtype` (
+  `ItemType_Code` varchar(10) NOT NULL,
+  `ItemType_Name` varchar(30) default NULL,
+  `Description` varchar(50) default NULL,
+  PRIMARY KEY  (`ItemType_Code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `salesitemtype`
+--
+
+
+/*!40000 ALTER TABLE `salesitemtype` DISABLE KEYS */;
+LOCK TABLES `salesitemtype` WRITE;
+INSERT INTO `salesitemtype` VALUES ('SIT000001','WASHING MACHINE',''),('SIT000002','REFRIGERATOR',''),('SIT000003','TELEVISION',''),('SIT000004','OVEN',''),('SIT000005','PLAYER & HOME THEATRE',''),('SIT000006','FREEZER',''),('SIT000007','Fan',''),('SIT000008','Cooker Item',''),('SIT000009','Other','');
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `salesitemtype` ENABLE KEYS */;
+
+--
+-- Table structure for table `salesorderpayment`
+--
+
+DROP TABLE IF EXISTS `salesorderpayment`;
+CREATE TABLE `salesorderpayment` (
+  `OrderPayment_ID` varchar(10) NOT NULL,
+  `OrderPayment_Amount` decimal(10,2) NOT NULL,
+  `OrderPayment_Date` date NOT NULL,
+  `OrderPayment_Discount` int(5) default NULL,
+  `Order_ID` varchar(10) NOT NULL,
+  PRIMARY KEY  (`OrderPayment_ID`),
+  KEY `Order_ID` (`Order_ID`),
+  CONSTRAINT `salesorderpayment_ibfk_1` FOREIGN KEY (`Order_ID`) REFERENCES `salesorders` (`Order_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `salesorderpayment`
+--
+
+
+/*!40000 ALTER TABLE `salesorderpayment` DISABLE KEYS */;
+LOCK TABLES `salesorderpayment` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `salesorderpayment` ENABLE KEYS */;
+
+--
+-- Table structure for table `salesorderpaymentcheque`
+--
+
+DROP TABLE IF EXISTS `salesorderpaymentcheque`;
+CREATE TABLE `salesorderpaymentcheque` (
+  `OrderPayment_ID` varchar(10) NOT NULL,
+  `OrderPaymentCheque_No` varchar(20) NOT NULL,
+  `OrderPaymentBank_Name` varchar(20) default NULL,
+  `OrderPaymentBank_Branch` varchar(20) default NULL,
+  `OrderPaymentBank_Code` varchar(20) default NULL,
+  `OrderPaymentCust_Name` varchar(50) default NULL,
+  `OrderPaymentBank_IssueDate` date NOT NULL,
+  `OrderPaymentCheque_DueDate` date NOT NULL,
+  KEY `OrderPayment_ID` (`OrderPayment_ID`),
+  CONSTRAINT `salesorderpaymentcheque_ibfk_1` FOREIGN KEY (`OrderPayment_ID`) REFERENCES `salesorderpayment` (`OrderPayment_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `salesorderpaymentcheque`
+--
+
+
+/*!40000 ALTER TABLE `salesorderpaymentcheque` DISABLE KEYS */;
+LOCK TABLES `salesorderpaymentcheque` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `salesorderpaymentcheque` ENABLE KEYS */;
+
+--
+-- Table structure for table `salesorders`
+--
+
+DROP TABLE IF EXISTS `salesorders`;
+CREATE TABLE `salesorders` (
+  `Order_ID` varchar(10) NOT NULL,
+  `Order_Date` datetime NOT NULL,
+  `Total_Amount` decimal(10,2) default NULL,
+  `Discount` decimal(5,2) default NULL,
+  `Cust_ID` varchar(10) NOT NULL,
+  PRIMARY KEY  (`Order_ID`),
+  KEY `Cust_ID` (`Cust_ID`),
+  CONSTRAINT `salesorders_ibfk_1` FOREIGN KEY (`Cust_ID`) REFERENCES `customer` (`Cust_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `salesorders`
+--
+
+
+/*!40000 ALTER TABLE `salesorders` DISABLE KEYS */;
+LOCK TABLES `salesorders` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `salesorders` ENABLE KEYS */;
+
+--
+-- Table structure for table `serviceinvoice`
+--
+
+DROP TABLE IF EXISTS `serviceinvoice`;
+CREATE TABLE `serviceinvoice` (
+  `Invoice_No` varchar(6) NOT NULL,
+  `Date` datetime NOT NULL,
+  `Amount` decimal(10,2) NOT NULL,
+  `Discount` int(5) default NULL,
+  `Service_Order_ID` varchar(6) NOT NULL,
+  PRIMARY KEY  (`Invoice_No`),
+  KEY `Service_Order_ID` (`Service_Order_ID`),
+  CONSTRAINT `serviceinvoice_ibfk_1` FOREIGN KEY (`Service_Order_ID`) REFERENCES `serviceorder` (`Service_Order_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `serviceinvoice`
+--
+
+
+/*!40000 ALTER TABLE `serviceinvoice` DISABLE KEYS */;
+LOCK TABLES `serviceinvoice` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `serviceinvoice` ENABLE KEYS */;
+
+--
+-- Table structure for table `serviceinvoicecheque`
+--
+
+DROP TABLE IF EXISTS `serviceinvoicecheque`;
+CREATE TABLE `serviceinvoicecheque` (
+  `Invoice_No` varchar(10) NOT NULL,
+  `InvoiceCheque_No` varchar(20) NOT NULL,
+  `InvoiceBank_Name` varchar(20) default NULL,
+  `InvoiceBank_Branch` varchar(20) default NULL,
+  `InvoiceBank_Code` varchar(20) default NULL,
+  `InvoiceCust_Name` varchar(50) default NULL,
+  `InvoiceBank_IssueDate` date NOT NULL,
+  `InvoiceCheque_DueDate` date NOT NULL,
+  KEY `Invoice_No` (`Invoice_No`),
+  CONSTRAINT `serviceinvoicecheque_ibfk_1` FOREIGN KEY (`Invoice_No`) REFERENCES `serviceinvoice` (`Invoice_No`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `serviceinvoicecheque`
+--
+
+
+/*!40000 ALTER TABLE `serviceinvoicecheque` DISABLE KEYS */;
+LOCK TABLES `serviceinvoicecheque` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `serviceinvoicecheque` ENABLE KEYS */;
+
+--
+-- Table structure for table `serviceitem`
+--
+
+DROP TABLE IF EXISTS `serviceitem`;
+CREATE TABLE `serviceitem` (
+  `Item_Code` varchar(6) NOT NULL,
+  `Description` varchar(50) NOT NULL,
+  `Model_No` varchar(20) default NULL,
+  `Serial_No` varchar(20) default NULL,
+  `Item_Brand_Name` varchar(30) default NULL,
+  `Current_Value` decimal(10,2) default NULL,
+  `Work_Finish_Date` datetime default NULL,
+  `Item_Can_Be_Repair` binary(1) default NULL,
+  `Service_Order_ID` varchar(6) NOT NULL,
+  PRIMARY KEY  (`Item_Code`),
+  KEY `Service_Order_ID` (`Service_Order_ID`),
+  CONSTRAINT `serviceitem_ibfk_1` FOREIGN KEY (`Service_Order_ID`) REFERENCES `serviceorder` (`Service_Order_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `serviceitem`
+--
+
+
+/*!40000 ALTER TABLE `serviceitem` DISABLE KEYS */;
+LOCK TABLES `serviceitem` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `serviceitem` ENABLE KEYS */;
+
+--
+-- Table structure for table `serviceitemremarks`
+--
+
+DROP TABLE IF EXISTS `serviceitemremarks`;
+CREATE TABLE `serviceitemremarks` (
+  `Item_Remark_No` int(6) NOT NULL,
+  `Item_Remark_Description` varchar(50) NOT NULL,
+  `Item_Code` varchar(6) NOT NULL,
+  PRIMARY KEY  (`Item_Remark_No`,`Item_Code`),
+  KEY `Item_Code` (`Item_Code`),
+  CONSTRAINT `serviceitemremarks_ibfk_1` FOREIGN KEY (`Item_Code`) REFERENCES `serviceitem` (`Item_Code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `serviceitemremarks`
+--
+
+
+/*!40000 ALTER TABLE `serviceitemremarks` DISABLE KEYS */;
+LOCK TABLES `serviceitemremarks` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `serviceitemremarks` ENABLE KEYS */;
+
+--
+-- Table structure for table `serviceorder`
+--
+
+DROP TABLE IF EXISTS `serviceorder`;
+CREATE TABLE `serviceorder` (
+  `Service_Order_ID` varchar(6) NOT NULL,
+  `Duration` varchar(15) default NULL,
+  `Order_Date` datetime NOT NULL,
+  `Issue_Date` date default NULL,
+  `Total_Cost_Amount` decimal(10,2) default NULL,
+  `Cust_ID` varchar(6) NOT NULL,
+  PRIMARY KEY  (`Service_Order_ID`),
+  KEY `Cust_ID` (`Cust_ID`),
+  CONSTRAINT `serviceorder_ibfk_1` FOREIGN KEY (`Cust_ID`) REFERENCES `customer` (`Cust_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `serviceorder`
+--
+
+
+/*!40000 ALTER TABLE `serviceorder` DISABLE KEYS */;
+LOCK TABLES `serviceorder` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `serviceorder` ENABLE KEYS */;
+
+--
+-- Table structure for table `solditem`
+--
+
+DROP TABLE IF EXISTS `solditem`;
+CREATE TABLE `solditem` (
+  `Serial_No` varchar(20) default NULL,
+  `Model_No` varchar(20) NOT NULL,
+  `Item_Description` varchar(100) default NULL,
+  `Item_Brand_Name` varchar(30) default NULL,
+  `Receive_price` decimal(10,2) default NULL,
+  `Issue_price` decimal(10,2) default NULL,
+  `Item_Qty` int(20) default NULL,
+  `Warranty_Period` varchar(50) default NULL,
+  `Order_ID` varchar(10) NOT NULL,
+  PRIMARY KEY  (`Model_No`,`Order_ID`),
+  KEY `Order_ID` (`Order_ID`),
+  CONSTRAINT `solditem_ibfk_1` FOREIGN KEY (`Model_No`) REFERENCES `salesitem` (`Model_No`),
+  CONSTRAINT `solditem_ibfk_2` FOREIGN KEY (`Order_ID`) REFERENCES `salesorders` (`Order_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `solditem`
+--
+
+
+/*!40000 ALTER TABLE `solditem` DISABLE KEYS */;
+LOCK TABLES `solditem` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `solditem` ENABLE KEYS */;
+
+--
+-- Table structure for table `systemuser`
+--
+
+DROP TABLE IF EXISTS `systemuser`;
+CREATE TABLE `systemuser` (
+  `Employee_ID` varchar(6) NOT NULL,
+  `User_Name` varchar(30) NOT NULL,
+  `Password` text NOT NULL,
+  PRIMARY KEY  (`User_Name`),
+  KEY `Employee_ID` (`Employee_ID`),
+  CONSTRAINT `systemuser_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `employee` (`Employee_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `systemuser`
+--
+
+
+/*!40000 ALTER TABLE `systemuser` DISABLE KEYS */;
+LOCK TABLES `systemuser` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `systemuser` ENABLE KEYS */;
+
+--
+-- Table structure for table `vendor`
+--
+
+DROP TABLE IF EXISTS `vendor`;
+CREATE TABLE `vendor` (
+  `Vendor_ID` varchar(10) NOT NULL,
+  `Vendor_Name` varchar(30) NOT NULL,
+  `Vendor_Address` varchar(50) default NULL,
+  `Contact_No1` varchar(10) default NULL,
+  `Contact_No2` varchar(10) default NULL,
+  `Contact_No3` varchar(10) default NULL,
+  `FAX_No` varchar(10) default NULL,
+  `Email` varchar(30) default NULL,
+  PRIMARY KEY  (`Vendor_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `vendor`
+--
+
+
+/*!40000 ALTER TABLE `vendor` DISABLE KEYS */;
+LOCK TABLES `vendor` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `vendor` ENABLE KEYS */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
