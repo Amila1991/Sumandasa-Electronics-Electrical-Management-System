@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" language="groovy" pageWidth="595" pageHeight="400" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="CustName" class="java.lang.String"/>
+	<parameter name="CustAddress" class="java.lang.String"/>
+	<parameter name="Contact" class="java.lang.String"/>
+	<parameter name="ServiceOrder" class="java.lang.String"/>
+	<parameter name="ModelNo" class="java.lang.String"/>
+	<parameter name="SerialNo" class="java.lang.String"/>
+	<parameter name="Description" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="103" y="10" width="375" height="32"/>
+				<textElement>
+					<font size="22"/>
+				</textElement>
+				<text><![CDATA[Sumanadasa Electrical & Electronics]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="193" y="42" width="178" height="20"/>
+				<textElement/>
+				<text><![CDATA[No.202 , Main Street , Ambalangoda.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="101" y="62" width="377" height="17"/>
+				<textElement/>
+				<text><![CDATA[Tel : 091-2259135                          E-mail : sumanadasaelectrical@gmail.com]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="237" splitType="Stretch">
+			<staticText>
+				<reportElement x="14" y="37" width="121" height="20"/>
+				<textElement>
+					<font fontName="Calibri" size="13"/>
+				</textElement>
+				<text><![CDATA[Customer Name        :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="63" width="121" height="20"/>
+				<textElement>
+					<font fontName="Calibri" size="13"/>
+				</textElement>
+				<text><![CDATA[Customer Address    :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="155" y="37" width="216" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{CustName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="155" y="63" width="331" height="18"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{CustAddress}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="155" y="87" width="100" height="17"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{Contact}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="145" y="5" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{ServiceOrder}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="35" y="5" width="100" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Service Order ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="87" width="121" height="19"/>
+				<textElement>
+					<font fontName="Calibri" size="13"/>
+				</textElement>
+				<text><![CDATA[Contact                       :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="142" width="121" height="20"/>
+				<textElement>
+					<font fontName="Calibri" size="13"/>
+				</textElement>
+				<text><![CDATA[Customer Name        :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="192" width="121" height="19"/>
+				<textElement>
+					<font fontName="Calibri" size="13"/>
+				</textElement>
+				<text><![CDATA[Contact                       :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="168" width="121" height="20"/>
+				<textElement>
+					<font fontName="Calibri" size="13"/>
+				</textElement>
+				<text><![CDATA[Customer Address    :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="155" y="142" width="131" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{ModelNo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="155" y="168" width="131" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{SerialNo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="155" y="192" width="263" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{Description}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="86" splitType="Stretch"/>
+	</summary>
+</jasperReport>
